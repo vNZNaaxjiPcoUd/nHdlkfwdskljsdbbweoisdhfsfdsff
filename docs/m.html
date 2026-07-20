@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <base target="_blank">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 , interactive-widget=resizes-content">
+    <title>yView - Mindmap</title>
+    <script src="https://h.jwint.net/static/crypto-js.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+
+    <!--link rel="stylesheet" href="./style_black.css"-->
+    <script>
+        (function() {
+            const bookname = window.location.search.slice(1);
+            window.title = "看雲";
+            const surl  = window.location.origin + "/";
+            const myManifest = {
+                "name": "看雲",
+                "short_name": "看雲",
+                "description": "看雲",
+                "display": "standalone",
+                "theme_color": "#2196F3",
+                "background_color": "#F0F0F0",
+                "start_url": window.location.href,
+                "scope": surl,
+                "icons": [
+                    { "src": "https://h.jwint.net/favicon192.png", "sizes": "192x192", "type": "image/png" },
+                    { "src": "https://h.jwint.net/favicon512.png", "sizes": "512x512", "type": "image/png" }
+                ],
+                "orientation": "portrait"
+            };
+            const stringManifest = JSON.stringify(myManifest);
+            const blob = new Blob([stringManifest], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(blob);
+
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href = manifestURL;
+            document.head.appendChild(link);    
+        })();
+    </script>
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+        background-color: gray; /* 你可以根據喜好修改背景色 */
+        color: white;
+        font-size: 16px; 
+        touch-action: manipulation;
+    }
+        /* 圓形回到頂部按鈕的樣式 */
+        #backToTopBtn {
+            position: fixed;
+            bottom: 50px;
+            right: 5dvw;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            font-size: 29px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        #backToTopBtn:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        /* 確保心智圖容器有足夠的空間展開 */
+        #mdShowArea {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #markmap {
+            width: 100%;
+            height: 100%;
+            flex-grow: 1;
+            display: flex;
+            font-family: Arial, sans-serif;
+            background-color: rgba(128, 128, 128, 0.389); /* 你可以根據喜好修改背景色 */
+            color: white;
+            font-size: 16px; 
+        }
+        #showInfo {
+            width: 100%;
+            height: 100%;
+            flex-grow: 1;
+            display: flex;
+            font-family: Arial, sans-serif;
+            background-color: rgba(128, 128, 128, 0.389); /* 你可以根據喜好修改背景色 */
+            color: white;
+            font-size: 16px; 
+        }
+
+
+</style>
+</head>
+<body>
+    <div class="main-container-readonly">
+        <div class="tabs">
+            <div id="topBnt">
+            <button class="tab-button" id="getDBBtn2" style="display:none" onclick="">1</button>
+            <button class="tab-button" id="setPW" onclick="" style="display:none">1</button>
+            <button class="tab-button" id="bookTabBtn" onclick="" style="display:none">1</button>
+            <button class="tab-button" id="addSubPageBtn"onclick="" style="display:none">1</button>
+            <button class="tab-button" id="saveDBBtn2" onclick="" style="display:none">1</button>
+            </div>
+        </div>
+
+        <div id="mdShowArea" style="display:none;">
+            <button id="markdownViewBtn" onclick="" style="position:absolute; z-index:10;">2</button>
+            <div id="mdText" style="display:none; color: white; padding: 20px;"></div>
+            <svg id="markmap"></svg>
+        </div>
+        
+        <div id="TabA" class="tab-content">
+            <textarea id="encryptedContent" placeholder="2..." style="display: none;"></textarea>
+            
+        </div>
+
+        <div id="TabB" class="tab-content">
+            <div class="sub-tabs-header">
+                <div id="subTabNav" class="sub-tabs"></div>
+            </div>
+            <div id="subTabContentContainer" class="sub-tab-content-container"></div>
+        </div>
+    </div>
+    <div id="statusMessage" class="status-info" style="display: none;">2</div>
+    <div id="passwordOverlay">
+        <input type="text" id="passwordInput" placeholder="3" autocomplete="off" style="display: none;">
+        <div> <h2 id="showInfo">讀取中。。。。。</h2></div>
+    </div>
+
+    <button id="backToTopBtn" title="回到最前面">↑</button>
+
+    <script>
+
+// --- 全局變數 ---
+const encryptedContentArea = document.getElementById('encryptedContent');
+const API_URL = "https://script.google.com/macros/s/AKfycbzIAuTrBD3eI7uusVneoYF6P-f2RtqVLT2yrpHbWpghCTsfhGh6JdcMgKx2b6a3K7HX/exec"; 
+const SALT = "Nxk98ahIR50AtZBiLxowpmhaWXQCg8E";
+
+function updateStatus(message, type = 'info') {}
+
+function getKey(){
+    return CryptoJS.SHA512(bookData.aesKey+"Sy8ai12PJ4EEX9DmHWabqZRCMJEInt1pQh").toString();
+}
+
+// 當按鈕被點擊時
+let cntTopBtn = 0;
+backToTopBtn.addEventListener("click", function() {
+    if (mdShowArea.scrollTop < 1) {
+        if(cntTopBtn === 0) {
+            console.log("再按一次關閉視窗");
+            cntTopBtn++;
+            return;
+        }
+        window.close();
+        console.log("關閉視窗");
+    } else {
+        mdShowArea.scrollTo({ top: 0, behavior: "smooth" });
+        window.location.href = "#";
+        cntTopBtn = 0;
+    }
+});
+
+function decData(){
+    let originalText = "";
+    let ret = true;
+    const key = getKey();
+    const encryptedText = encryptedContentArea.value;
+    if (!key || key.trim() === "") { alert("請輸入密鑰", 'error'); return false; }
+    if (!encryptedText) { console.log("無密文內容", 'error'); return false; }
+
+    try {
+        const keyHash = key;
+        const bytes = CryptoJS.AES.decrypt(encryptedText, keyHash);
+        originalText = bytes.toString(CryptoJS.enc.Utf8);
+        console.log("originalText", originalText);
+        if (originalText) {
+            setContentToTabB(originalText);
+        } else {
+            console.log("解密錯誤，流程A");
+            ret = false;
+        }
+    } catch (e) {
+        console.log("解密發生錯誤。B", e);
+        ret = false; 
+    }
+    return ret;
+}
+
+function generateToken() {
+    const kNow = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const name=bookData.Name;
+    const rawString = bookData.APIKey + SALT + kNow + name;
+    return CryptoJS.SHA512(rawString).toString();
+} 
+
+async function callApi(params) {
+    const token = generateToken();
+    const queryString = new URLSearchParams({ ...params, token: token }).toString();
+    const finalUrl = `${API_URL}?${queryString}`;
+    try {
+        const response = await fetch(finalUrl);
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error("API 請求失敗:", error);
+        confirm("網路請求失敗，是否重試？");
+        return { status: "error", message: "網路請求失敗" };
+    }
+}
+
+async function doGet(key) {
+    const res = await callApi({ action: "get", key: key, value: "123456", tag:"AAAAAA" });
+    let newRes = null;
+    if(res.status === "success"){
+        newRes = { status: res.status, message: res.message, key: res.key, value: res.value, tag: res.tag };
+    } else {
+        console.log("讀取資料失敗:", res.message);
+        newRes = { status: res.status, message: res.message, key: null, value: null, tag: null };
+    }
+    return newRes;
+}
+
+function showError(){
+    bookContent = ["# 錯誤\n\n你好! \n\n新的世界在你的腳下，***走一步***吧！"];
+    showMarkdownView();
+    return;
+}
+
+function fakeGet(){
+
+    let originalText = `<<<<BLOCK_START_v2>>>>
+RGVtbw==
+<<<<TITLE_END>>>>
+W3RvIGxpbmtdKCNoaSkKCgojIGxpc3QKKioqVG9vbCoqKsKgW0NhbGN1bGF0ZV0oaHR0cHM6Ly9jYWwuandpbnQubmV0LynCoFtDYWxlbmRhcl0oaHR0cHM6Ly9jYWxlbmRhci5nb29nbGUuY29tL2NhbGVuZGFyL3UvMC9yKcKgW0NoYXRdKGh0dHBzOi8vbWFpbC5nb29nbGUuY29tL2NoYXQvdS8wLyNjaGF0L3NwYWNlL0FBQUF4SUxpT1dzKcKgW0Ruc10oaHR0cHM6Ly9hY2NvdW50LnNxdWFyZXNwYWNlLmNvbS9kb21haW5zL21hbmFnZWQvandpbnQubmV0KcKgW0RvY10oaHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZG9jdW1lbnQvZC8xQzBPMjE2bFJFTG9tdmRDVlJGRjZwaXJqSGs0bks0NkFEZE14bmI3b0NsSS8pwqBbaW1lXShodHRwczovL3d3dy5nb29nbGUuY29tL2lucHV0dG9vbHMvdHJ5LynCoAoK
+<<<<BLOCK_END>>>>
+<<<<BLOCK_START_v2>>>>
+NGNjY2N4eHh4
+<<<<TITLE_END>>>>
+MTbnqK7kurrmoLzoqqrmmI4gTUJUSQo9PT09PT09PT09PQpb5ris6Kmm57ay56uZXShodHRwczovL3d3dy4xNnBlcnNvbmFsaXRpZXMuY29tL3R3KQoKW1Byb2ZpbGVdKGh0dHBzOi8vd3d3LjE2cGVyc29uYWxpdGllcy5jb20vY291bnRyeS1wcm9maWxlcy90YWl3YW4pCgpbRElTQyDlgIvmgKddKGh0dHBzOi8vaC5qd2ludC5uZXQvRElTQ+WAi+aAp+WIhuaekCkKCiMjIDE25Z6L5Lq65qC855qE5Zub5YCL57at5bqmOgoKMS4gKirog73ph4/kvobmupAoRS9JKToqKgogICAqICoq5aSW5ZCRKEUgLSBFeHRyYXZlcnNpb24pOioqwqDlgr7lkJHmlrzlvp7lpJbpg6jkuJbnlYzvvIzlpoLnpL7kuqTmtLvli5XjgIHkurrpmpvkupLli5XkuK3njbLlvpfog73ph4/jgIIKICAgKiAqKuWFp+WQkShJIC0gSW50cm92ZXJzaW9uKToqKsKg5YK+5ZCR5pa85b6e542o6JmV44CB5Y+N5oCd44CB5YWn6YOo5LiW55WM5Lit542y5b6X6IO96YeP44CCCjIuICoq6KqN55+l5pa55byPKFMvTik6KioKICAgKiAqKuWvpuaEnyhTIC0gU2Vuc2luZyk6KirCoOWCvuWQkeaWvOmXnOazqOWFt+mrlOOAgeWvpumam+eahOS6i+eJqe+8jOazqOmHjee0sOevgOWSjOe2k+mpl+OAggogICAqICoq55u06Ka6KE4gLSBJbnR1aXRpb24pOioqwqDlgr7lkJHmlrzpl5zms6jmir3osaHmpoLlv7XjgIHlj6/og73mgKfjgIHmnKrkvobotqjli6LlkozmlbTpq5TjgIIKMy4gKirmsbrnrZbmlrnlvI8oVC9GKToqKgogICAqICoq5oCd6ICDKFQgLSBUaGlua2luZyk6KirCoOWCvuWQkeaWvOS9v+eUqOmCj+i8r+OAgeWuouingOWIhuaekOWSjOWIpOaWt+S+huWBmuaxuuWumuOAggogICAqICoq5oOF5oSfKEYgLSBGZWVsaW5nKToqKsKg5YK+5ZCR5pa86ICD5oWu5YCL5Lq65YO55YC86KeA44CB5oOF5oSf5ZKM5Lq66Zqb6Zec5L+C5L6G5YGa5rG65a6a44CCCjQuICoq55Sf5rS75oWL5bqmKEovUCk6KioKICAgKiAqKuWIpOaWtyhKIC0gSnVkZ2luZyk6KirCoOWCvuWQkeaWvOacieioiOWKg+OAgeacieaineeQhuOAgeWWnOatoeaOp+WItuWSjOe1hOe5lOeUn+a0u+OAggogICAqICoq5oSf55+lKFAgLSBQZXJjZWl2aW5nKToqKsKg5YK+5ZCR5pa86Zqo5oCn44CB5b2I5oCn44CB5Zac5q2h5L+d5oyB6ZaL5pS+5ZKM5o6i57Si5paw5LqL54mp44CCCgoxNueoruS6uuagvOmhnuWeizoKCuWwh+S7peS4iuWbm+WAi+e2reW6pue1hOWQiOi1t+S+hu+8jOWwseacg+eUoueUnzE256iu5LiN5ZCM55qETUJUSeS6uuagvOmhnuWei++8jOavj+eorumhnuWei+mDveacieWFtueNqOeJueeahOaAp+agvOeJueizquOAgeWEquWLouWSjOWKo+WLouOAggoKfCDkurrmoLzpoZ7lnosgfCDnuK7lr6sgICB8IOS4u+imgeeJueizqiAgICAgICAgICAgICAgICAgICAgICAgICAgICB8CnwgLS0tLSB8IC0tLS0gfCAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tIHwKfCBJU1RKIHwg54mpICAgIHwg5YuZ5a+m44CB5pyJ5qKd55CG44CB5rOo6YeN57Sw56+A44CB55uu5qiZ5bCO5ZCR44CB5Zac5q2h6KiI55Wr5ZKM57WE57mUICAgICAgICB8CnwgSVNGSiB8IOWuiOihm+iAhSAgfCDmuqvlkozjgIHmnInlkIznkIblv4PjgIHmnInosqzku7vmhJ/jgIHms6jph43ntLDnr4DjgIHllpzmraHluavliqnku5bkurogICAgICAgIHwKfCBJTkZKIHwg5o+Q5YCh6ICFICB8IOeQhuaDs+S4u+e+qeOAgeacieWQjOeQhuW/g+OAgeaciea0nuWvn+WKm+OAgeazqOmHjeWDueWAvOingOOAgeWWnOatoei/veaxguaEj+e+qeWSjOebruaomSAgfAp8IElOVEogfCDlu7rnr4nluKsgIHwg542o56uL44CB5pyJ6YKP6Lyv44CB5pyJ6YGg6KaL44CB5rOo6YeN5pWI546H44CB5Zac5q2h5YiG5p6Q5ZKM6Kej5rG65ZWP6aGMICAgICAgIHwKfCBJU1RQIHwg5aSn5birICAgfCDlr6bpmpvjgIHlhrfpnZzjgIHllpzmraHop6PmsbrllY/poYzjgIHms6jph43ntLDnr4DjgIHllpzmraHli5XmiYvmk43kvZwgICAgICAgIHwKfCBJU0ZQIHwg5o6i6Zqq5a62ICB8IOmaqOWSjOOAgeacieWJtemAoOWKm+OAgeazqOmHjeaEn+WPl+OAgeWWnOatoeS6q+WPl+eVtuS4i+OAgei/veaxguiHqueUsSAgICAgICAgfAp8IElORlAgfCDoqr/lgZzogIUgIHwg55CG5oOz5Li7576p44CB5pyJ5ZCM55CG5b+D44CB5pyJ5Ym15oSP44CB5rOo6YeN5YO55YC86KeA44CB5Zac5q2h6L+95rGC5YCL5Lq65oiQ6ZW35ZKM5oSP576pIHwKfCBJTlRQIHwg6YKP6Lyv5a245a62IHwg542o56uL44CB5pyJ6YKP6Lyv44CB5pyJ5Ym16YCg5Yqb44CB5rOo6YeN5oCd6ICD44CB5Zac5q2h5o6i57Si5paw5oOz5rOVICAgICAgICB8CnwgRVNUUCB8IOS8gealreWutiAgfCDlr6bpmpvjgIHmnInooYzli5XlipvjgIHllpzmraHlhpLpmqrjgIHms6jph43ntZDmnpzjgIHllpzmraHop6PmsbrllY/poYwgICAgICAgIHwKfCBFU0ZQIHwg6KGo5ryU6ICFICB8IOa0u+a9keOAgeWkluWQkeOAgeWWnOatoeekvuS6pOOAgeazqOmHjeaEn+WPl+OAgeWWnOatoeS6q+WPl+eUn+a0uyAgICAgICAgICB8CnwgRU5GUCB8IOertumBuOiAhSAgfCDnhrHmg4XjgIHmnInlibXpgKDlipvjgIHmnInlkIznkIblv4PjgIHllpzmraHnpL7kuqTjgIHov73msYLmlrDpq5TpqZcgICAgICAgICB8CnwgRU5USiB8IOaMh+aPruWumCAgfCDpoJjlsI7lipvlvLfjgIHmnInnrZbnlaXjgIHms6jph43mlYjnjofjgIHllpzmraHopo/lioPlkozntYTnuZTjgIHov73msYLmiJDlip8gICAgICB8CnwgRVNUSiB8IOWft+ihjOWumCAgfCDli5nlr6bjgIHmnInmop3nkIbjgIHms6jph43ntLDnr4DjgIHllpzmraHoqIjnlavlkozntYTnuZTjgIHov73msYLmlYjnjocgICAgICAgIHwKfCBFU0ZKIHwg5Z+35pS/5a6YICB8IOeGseaDheOAgeWkluWQkeOAgeWWnOatoeekvuS6pOOAgeazqOmHjeS6uumam+mXnOS/guOAgeWWnOatoeW5q+WKqeS7luS6uiAgICAgICAgfAp8IEVORkogfCDmlZnlsI7ogIUgIHwg6a2F5Yqb44CB5pyJ5ZCM55CG5b+D44CB5pyJ5rSe5a+f5Yqb44CB5rOo6YeN5Lq66Zqb6Zec5L+C44CB5Zac5q2h5r+A5Yu15ZKM5byV5bCO5LuW5Lq6ICAgfAp8IEVOVFAgfCDovq/oq5blrrYgIHwg6IGw5piO44CB5pyJ5Ym15oSP44CB5Zac5q2h6L6v6KuW44CB5rOo6YeN5oCd6ICD44CB5Zac5q2h5o6i57Si5paw5oOz5rOVICAgICAgICB8CgoK
+<<<<BLOCK_END>>>>
+<<<<BLOCK_START_v2>>>>
+Mw==
+<<<<TITLE_END>>>>
+IyBIaSAKYWFhYWFhYWFhCiMjIFRoaXMgaXMgdHQKYWFhYWFhYWFhCiMjIyBUVCBmb3IgdGVzdAphYWFhYWFhYWEKIyMjIyBUZXN0IHRoZSBtYXJrZG93bgphYWFhYWFhYWEKCipBbHNvKiAqKmhlcmUqKiAqKipzaG93KioqIHNwZWNpYWwgY2hhci4KCiMjIyMgbGluawpbbm90ZV0oaHR0cHM6Ly9oLmp3aW50Lm5ldC92cF9ub3RlKQoKIyMjI2hlcmUgaXMgc2VxdWVuY2UuCjEuIGEKMi4gYgozLiBbIF0gYwo0LiBbeF0gZAoKIyMjIyBoZXJlIGlzIHRhYmxlCnwgQSB8IEFBIHwgQUFBIHwKfC18LXwtfAp8IGEgfCBhIHwgYSB8CnxifGJ8YnwKCgp8IOW3puWwjem9iiB8IOe9ruS4reWwjem9iiB8IOWPs+Wwjem9iiB8CnwgOi0tLSB8IDotLS06IHwgLS0tOiB8Cnwg6Z2g5bemIHwg5Zyo5Lit6ZaTIHwg6Z2g5Y+zIHwKfCDlhaflrrnovIPplbfmmYLmmI7poa8gfCDkuK0gfCAkMTAwIHwKCgojIyMjIFBpY3R1cmUKIVtwaWNdKGh0dHBzOi8vc2hhcmUuandpbnQubmV0L2RvYy9kaXNjMS5qcGVnKQ==
+<<<<BLOCK_END>>>>`;
+    if (originalText) {
+            setContentToTabB(originalText);
+    }
+    let res = { status: "success", message:"Fake read"};
+    return res;
+}
+
+async function getFromAPI() {
+    //return fakeGet();
+    
+    updateStatus("正在讀取...", 'info');
+    if(!bookData.APIKey) { getAPIKey(); } 
+
+    let res = await doGet(bookData.Name);
+
+    if (res.status === "success" && res.value) {
+        encryptedContentArea.value = res.value;
+        bookData.tag = res.tag || "";
+        let ret = false;
+        while(!ret) {
+            while(!bookData.aesKey) { await getAESKey(); }                
+            ret = await decData();
+            if (!ret) {
+                console.log(`解密失敗，請確認 AES 密鑰是否正確`, 'error');
+                cleanAESKey();
+                await sleep(3000);    
+            }
+        }
+    } else {
+        console.log(`API 讀取失敗: ${res.message}`, 'error');
+        showError();
+    }
+    if (res.status === "success") {
+        updateStatus("讀取成功", 'success');
+    }else{
+        updateStatus("讀取失敗: " + res.message, 'error');
+        showError();
+    }
+    return res;
+}
+
+async function getAPIKey() {
+    bookData.APIKey = "3d46431496b772599fcf959885ccdea155508431ed67819db3e41079fa2d8a3cd547f596ec7c9d0b5621d6c39549297ae90ba14c663d738ec07194ad9ddeab82"
+    return;
+};
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+async function getAESKey() {
+    let aesKey =""; 
+    aesKey = prompt("請輸入密碼:");
+    if (aesKey) {
+        bookData.aesKey = aesKey;
+    } else if(aesKey === "") {
+        bookData.aesKey = "";
+    } else {
+        bookData.aesKey = "";
+        await sleep(3000);
+        return false;
+    }
+    return true;
+}
+
+let bookData = { Name: "", APIKey: "", aesKey: "", info: "這是一些額外的資訊", tag:"9999" }
+
+function cleanAESKey() { bookData.aesKey = ""; }
+
+let btitle = null;
+function addEditableBlock(title = "標題", text = "內容") {
+    // 處理文字內容：將換行符號替換為 <br>，並用 div 包裝以限制寬度與強制換行
+    // 你可以根據需要調整 max-width 的數值 (例如 400px 或 500px)
+    const formattedText = text ? text.replace(/\n/g, '<br>') : "";
+    const htmlBlock = `<div style="max-width: 450px; white-space: normal; line-height: 1.6; text-align: left; padding: 5px; background: #f8f9fa; border-radius: 5px; color: #333; font-size: 14px;">${formattedText}</div>`;
+    // 為了讓心智圖效果更好，將標題作為一級或二級節點處理
+    bookContent.push(text);
+    //bookContent.push(`${htmlBlock}`);
+    //bookContent.push(`## ${title}\n- ${htmlBlock}`);
+    // 👇 這裡加上了 ，讓底下的文字段落 (htmlBlock) 預設被隱藏
+    //bookContent.push(`## ${title} \n- ${htmlBlock}`);
+    if (!btitle) {
+        btitle = title;
+        document.title = btitle;
+    }
+}
+
+function setContentToTabB(fullContent) {
+    let parseType = "v2";
+    let blockStrings = fullContent.split('<<<<BLOCK_START_v2>>>>').filter(s => s.trim() !== "");
+
+    if (blockStrings.length === 0 || blockStrings[0].indexOf('<<<<TITLE_END>>>>') === -1) {   
+        const blockStrings2 = fullContent.split('<<<<BLOCK_START>>>>').filter(s => s.trim() !== "");
+        if (blockStrings2.length === 0) return;
+        parseType = "v1";
+        blockStrings = blockStrings2;
+    }
+    blockStrings.forEach(blockStr => {
+        const regex = new RegExp(`(.*?)\n<<<<TITLE_END>>>>\n(.*?)<<<<BLOCK_END>>>>`, 's');
+        const match = blockStr.match(regex);
+        if (match) {
+            const safeTitle = match[1].trim();
+            const title = parseType === "v2" ? decodeURIComponent(escape(atob(safeTitle))) : safeTitle;
+            const safeText = match[2].trim();
+            const text = parseType === "v2" ? decodeURIComponent(escape(atob(safeText))) : safeText;
+            addEditableBlock(title, text);
+        }
+    });
+}
+
+let bookContent = [];
+
+function o_getTextFromTabB() {
+    // 給心智圖一個根節點
+    //return `# ${bookData.Name || 'Root'}\n\n` + bookContent.join('\n\n');
+    const contents = bookContent.join('\n\n');
+    return contents;
+}
+
+function getTextFromTabB() {
+    // 給心智圖一個根節點，並組合所有內容
+    return `# ${bookData.Name || 'Root'}\n\n` + bookContent.join('\n\n');
+}
+
+// 宣告 Markmap 變數
+let markmapInstance = null;
+
+// Show markdown view (改為心智圖渲染)
+let mdShownState = false;
+function showMarkdownView() {
+    let mdShow = document.getElementById('mdShowArea');
+    let mdShowText = document.getElementById('mdText');
+    let svgEl = document.getElementById('markmap');
+
+    if(mdShownState) {
+        // 隱藏狀態
+        mdShow.style.display = "none";
+        mdShownState = false;
+        mdShowText.innerHTML = "";
+        if (markmapInstance) {
+            markmapInstance.destroy();
+            markmapInstance = null;
+        }
+        svgEl.innerHTML = "";
+        updateStatus("心智圖已隱藏", 'info');
+        document.getElementById('TabB').style.display = "flex";
+        document.getElementById('topBnt').style.display = "block";
+        document.body.style.backgroundColor = "#f4f4f9a9";
+        return;
+    } else {
+        // 顯示狀態
+        const content = getTextFromTabB();
+        if (content.trim() === "") {
+            svgEl.style.display = "none";
+            mdShowText.style.display = "block";
+            mdShowText.innerHTML = "沒有內容可顯示";
+            mdShow.style.display = "flex";
+            mdShownState = true;
+            return;
+        }
+        
+        mdShowText.style.display = "none";
+        svgEl.style.display = "block";
+
+        // Markmap 解析與渲染
+        //console.log(content);
+        const transformer = new markmap.Transformer();
+        const { root } = transformer.transform(content);
+        
+        svgEl.innerHTML = "";
+        //markmapInstance = markmap.Markmap.create(svgEl, null, root);
+        markmapInstance = markmap.Markmap.create(svgEl, { initialExpandLevel: 3 }, root);
+
+        mdShow.style.display = "flex";
+        mdShownState = true;
+        updateStatus("心智圖已顯示", 'success');
+        document.getElementById('TabB').style.display = "none";
+        document.getElementById('topBnt').style.display = "none";
+        document.body.style.backgroundColor = "#000000";
+
+        return;
+    }
+}   
+
+function getAESLocalKey(){
+    localEncryptedKey = "U2FsdGVkX1/lGcDQ36P9KIOD8BcgdElZEuiOcAF2TWq32DYnLlAIAYtSIRDjRzT5t3L6MqEfBXRaKoz6R8zOTnkQM/kET6l/Q0btRp1dzi4=";
+    const localKey = CryptoJS.AES.decrypt(localEncryptedKey, "QB1xLBSkU3GqjKBtq8a7sQh2Zt").toString(CryptoJS.enc.Utf8);
+    return localKey;
+}
+
+// --- 初始化 ---
+document.addEventListener('DOMContentLoaded', async () => {
+    let result = "";
+    const paramsFromURL = new URLSearchParams(window.location.search);
+    const keys = paramsFromURL.keys();
+    const firstKey = keys.next().value;
+    const firstValue = paramsFromURL.get(firstKey);
+    document.getElementById('topBnt').style.display = "none";
+    document.getElementById('markdownViewBtn').style.display = "none";
+    document.getElementById('setPW').style.display = "none";
+
+    result = firstKey;
+    bookData.aesKey = firstValue || getAESLocalKey();
+
+    let res = null;
+
+    if(!result){
+        bookContent = ["## HelloWorld\n\nHere is your information."];
+        showMarkdownView();
+        return;
+    }else{
+        bookData.Name = result;
+        document.title = bookData.Name;  
+        try { 
+            res = await getFromAPI();
+            if(res.status !== "success"){
+                throw new Error("getFromAPI 初始載入失敗");
+            }
+        } catch (error) {
+            console.log("getFromAPI 發生錯誤:", error.message);
+            updateStatus("找不到文章", 'error');
+            return false;   
+        }
+  
+        {
+            showMarkdownView();
+            document.getElementById('topBnt').style.display = "none";
+            document.getElementById('markdownViewBtn').style.display = "none";
+        }   
+    }
+});
+
+let clickCount = 0;
+document.onclick = function(e) {
+    //clickCount++;
+        return;
+    if (clickCount === 8) {
+        let mdShowText = document.getElementById('mdText');
+        mdShowText.style.display = "block";
+        document.getElementById('markmap').style.display = "none";
+        mdShowText.innerHTML = "休息一下吧！";
+    }
+    if (clickCount === 9) {
+        window.close();
+        let mdShowText = document.getElementById('mdText');
+        mdShowText.innerHTML = "要關門了哦！！！！";
+    }
+    if (clickCount === 10) {
+        let mdShowText = document.getElementById('mdText');
+        mdShowText.innerHTML = "再休息一下吧！！！！！！！！！！";
+    }
+    if (clickCount > 13) {
+        clickCount = 0;
+        window.location.reload();
+    }
+}
+
+document.getElementById('mdShowArea').onscroll = function() {
+    clickCount = 0;
+}
+
+    </script>
+</body>
+</html>

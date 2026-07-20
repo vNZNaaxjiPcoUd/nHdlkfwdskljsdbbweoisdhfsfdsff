@@ -1,0 +1,22 @@
+{
+  "name": "雲記",
+  "short_name": "雲記",
+  "description": "雲記是一款基於瀏覽器的加密筆記應用，提供安全的本地加密和雲端儲存功能，讓你隨時隨地管理你的筆記。",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f0f0f0",
+  "theme_color": "#333333",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

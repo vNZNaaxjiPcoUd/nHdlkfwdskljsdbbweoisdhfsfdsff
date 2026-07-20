@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <base target="_blank">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="雲記">
+    <title>雲記</title>
+
+    <script src="crypto-js.min.js"></script>
+    <script src="marked.min.js"></script>
+    <script src="mermaid.min.js"></script>
+    <script src="index.umd.js"></script>
+    <script src="d3@7.js"></script>
+    <script src="markmap-lib.js"></script>
+    <script src="markmap-view.js"></script>
+
+
+    <script>
+        window.updateWebManifest = function(customName) {
+            window.title = "雲記";
+            const surl  = window.location.origin + "/";
+            const currentUrl = window.location.href;
+
+            const myManifest = {
+                "id": currentUrl,
+                "name": customName || "雲記",
+                "short_name": customName || "雲記",
+                "description": "雲記是一款基於瀏覽器的加密筆記應用，提供安全的本地加密和雲端儲存功能。",
+                "display": "standalone",
+                "theme_color": "#2196F3",
+                "background_color": "#F0F0F0",
+                "start_url": currentUrl, 
+                "scope": surl,
+                "icons": [
+                    { "src": "https://h.jwint.net/favicon192.png", "sizes": "192x192", "type": "image/png" },
+                    { "src": "https://h.jwint.net/favicon512.png", "sizes": "512x512", "type": "image/png" }
+                ],
+                "orientation": "portrait"
+            };
+
+            const stringManifest = JSON.stringify(myManifest);
+            const manifestDataURI = 'data:application/json;charset=utf-8,' + encodeURIComponent(stringManifest);
+            
+            let link = document.getElementById('dynamic-manifest');
+            if (!link) {
+                link = document.createElement('link');
+                link.id = 'dynamic-manifest';
+                link.rel = 'manifest';
+                document.head.appendChild(link);
+            }
+            link.href = manifestDataURI;
+        };
+
+        (function() {
+            const paramsFromURL = new URLSearchParams(window.location.search);
+            const bParam = paramsFromURL.get('book');
+            window.updateWebManifest(bParam);
+        })();
+    </script>
+    <link rel="stylesheet" href="./style_black.css">
+    <style>
+        .toc-button-list {
+            display: flex !important;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px; 
+            user-select: none;
+            box-sizing: border-box;
+        }
+
+        .toc-button {
+            background: linear-gradient(145deg, #f7d6b5, #e0bfa0);
+            color: #2b3a2c; 
+            border: 1px solid #e6c5a5;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 1px 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            margin: 0;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            outline: none;
+            user-select: none;
+        }
+
+        .toc-button:hover {
+            background: linear-gradient(145deg, #fae2cc, #f7d6b5);
+            border-color: #ffdcb8;
+            transform: translateY(-2px) scale(1.05); 
+            box-shadow: 0 4px 10px rgba(247, 214, 181, 0.35);
+        }
+
+        .toc-button:active {
+            background: linear-gradient(145deg, #e0bfa0, #ccab8d);
+            transform: translateY(1px) scale(0.98); 
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            transition: all 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="tabs" id="mainTabs" >
+            <div id="topBnt">
+                <button class="tab-button" id="getDBBtn2" title="下載更新" onclick="getFromAPI()">取</button>
+                <button class="tab-button" title="閱讀模式" onclick="showMarkdownView()">讀</button>
+                <button class="tab-button" id="addSubPageBtn" title="新增分頁" onclick="addEditableBlock()">➕</button>
+                <button class="tab-button" id="saveDBBtn2" title="保存並上傳" onclick="saveToAPI()">存</button>
+            </div>
+        </div>
+
+        <div id="mkdwPage">
+            <button id="toc-btn">☰</button>
+            <button id="backToTopBtn" title="回到最前面" hidden>^</button>
+            <nav id="toc" class="toc-sidebar"></nav>
+
+            <div id="mdShowArea" style="display:none;">
+                <div id="mdBtnTab" style="display:none;">
+                    <button class="mdBtn" id="markdownReloadBtn" onclick="window.location.reload()">reload</button>
+                    <button class="mdBtn" id="markdownViewBtn" onclick="showMarkdownView()">close</button>
+                </div>
+                <div id="mdText"></div>
+                <svg id="markmap"></svg>
+            </div>
+        </div>
+
+        <div id="TabA" class="tab-content">
+            <button id="encBtn" onclick="updateDecData()">解密</button>
+            <textarea id="encryptedContent" placeholder="在此貼上密文..."></textarea>
+        </div>
+
+        <div id="TabB" class="tab-content">
+            <div class="sub-tabs-header">
+                <div id="subTabNav" class="sub-tabs"></div>
+            </div>
+            <div id="subTabContentContainer" class="sub-tab-content-container"></div>
+        </div>
+    </div>
+    
+    <div id="statusMessage" class="status-info" title="閱讀/編輯" onclick="showMarkdownView()">待...</div>
+    <div id="passwordOverlay">
+        <input type="text" id="passwordInput" placeholder="訊息內容" autocomplete="off">
+    </div>
+
+    <dialog id="newPwdDialog"  style="background-color: #1a1a1a; color: #d3d3d3; border: none; border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+        <input type="password" id="newPwd1" placeholder="輸入新密碼" style="background: transparent; border: none; border-bottom: 2px solid #ffd700; color: #ffffff; padding: 8px 12px; outline: none; font-size: 16px; text-align: center; width: 80%;"><br><br>
+        <input type="password" id="newPwd2" placeholder="再次確認密碼" style="background: transparent; border: none; border-bottom: 2px solid #ffd700; color: #ffffff; padding: 8px 12px; outline: none; font-size: 16px; text-align: center; width: 80%;"><br><br>
+        <button id="confirmBtn" style="background-color: #ffd700; color: #333333; border: none; border-radius: 25px; padding: 10px 24px; font-weight: bold; cursor: pointer; margin: 0 10px; box-shadow: 0 4px 0 #ccaa00;">確定</button>
+        <button id="cancelBtn" style="background-color: #ffd700; color: #333333; border: none; border-radius: 25px; padding: 10px 24px; font-weight: bold; cursor: pointer; margin: 0 10px; box-shadow: 0 4px 0 #ccaa00;">取消</button>
+    </dialog>
+
+    <dialog id="PwdDialog" style="background-color: #1a1a1a; color: #d3d3d3; border: none; border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+        <input type="password" id="pwdNow" placeholder="輸入密碼" style="background: transparent; border: none; border-bottom: 2px solid #ffd700; color: #ffffff; padding: 8px 12px; outline: none; font-size: 16px; text-align: center; width: 80%;"><br><br>
+        <button id="confirmBtnPwdDialog" style="background-color: #ffd700; color: #333333; border: none; border-radius: 25px; padding: 10px 24px; font-weight: bold; cursor: pointer; margin: 0 10px; box-shadow: 0 4px 0 #ccaa00;">確定</button>
+    </dialog>
+
+    <dialog id="inputDialog" style="background-color: #1a1a1a; color: #d3d3d3; border: none; border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+        <h2 id="inpTitle" style="margin-top: 0; color: #ffd700; font-size: 16px; font-weight: bold; margin-bottom: 5px;"></h2>
+        <input type="text" id="inputT" placeholder="輸入內容" style="background: transparent; border: none; border-bottom: 2px solid #ffd700; color: #ffffff; padding: 8px 12px; outline: none; font-size: 16px; text-align: center; width: 80%;"><br><br>
+        <button id="okCmd" style="background-color: #ffd700; color: #333333; border: none; border-radius: 10px; padding: 5px 10px; font-weight: bold; cursor: pointer; margin: 0 6px; box-shadow: 0 2px 0 #ccaa00;">確定</button>
+        <button id="cancelCmd" style="background-color: #ffd700; color: #333333; border: none; border-radius: 10px; padding: 5px 10px; font-weight: bold; cursor: pointer; margin: 0 6px; box-shadow: 0 2px 0 #ccaa00;">取消</button>    
+    </dialog>
+
+    <script src="ynote.obf.js"></script>
+
+</body>
+
+</html>

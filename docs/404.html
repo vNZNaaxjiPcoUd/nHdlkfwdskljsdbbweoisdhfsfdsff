@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- 加入 noindex 防止搜尋引擎索引這個 404 頁面本身 -->
+    <meta name="robots" content="noindex">
+    <meta http-equiv="cache-control" content="no-cache" />
+    <title>Redirecting...</title>
+    <style>
+        /* 隱藏內容避免閃爍 */
+        body { display: none; } 
+    </style>
+</head>
+<body>
+    <script>
+        function jumpToBook() {
+            // 解構並保留 hash (例如 #page2)
+            let { origin, pathname, search, hash } = window.location;
+
+            // 處理 URL 編碼 (例如把 %20 轉回 空白，%E5 轉回中文)
+            pathname = decodeURIComponent(pathname);
+            search = decodeURIComponent(search);
+
+            // 如果已經在首頁 (pathname 為 /)，通常 404 頁面不會在首頁觸發，
+            // 但為了保險起見保留此檢查
+            if (pathname === "/" || pathname === "/index.html") {
+                return;
+            }
+
+            // 加上支持 book=bookname&pw=password的方式
+            if (search.includes('book=')) {
+                const params = new URLSearchParams(search);
+                const book = params.get('book');
+                const pw = params.get('pw');
+                if (book) {
+                    const newSearch = pw ? `?book=${book}&pw=${pw}` : `?book=${book}`;
+                    window.location.replace(`${origin}/${newSearch}${hash}`);
+                    return;
+                }
+            }
+            
+            // 處理 /bookname/password 格式
+            const pathSegments = pathname.split('/').filter(s => s.length > 0);
+            if (pathSegments.length >= 1) {
+                const book = pathSegments[0];
+                const pw = pathSegments[1];
+                const newSearch = pw ? `?book=${book}&pw=${pw}` : `?book=${book}`;
+                window.location.replace(`${origin}/${newSearch}${hash}`);
+                return;
+            } else {
+                // 如果沒有路徑，手動導回首頁
+                window.location.replace(origin);
+            }
+            
+            /*
+            // 1. 去除開頭斜線
+            const pathPart = pathname.substring(1); 
+            // 2. 去除開頭問號
+            const queryPart = search.startsWith('?') ? search.substring(1) : search;
+            
+            
+
+            if (pathPart.length > 0) {
+                let newSearch = "";
+
+                if (queryPart.length > 0) {
+                    // Case: /abc?efg -> ?abc=efg
+                    newSearch = `?${pathPart}=${queryPart}`;
+                } else {
+                    // Case: /abc -> ?abc
+                    // Case: /abc=efg -> ?abc=efg
+                    newSearch = `?${pathPart}`;
+                }
+
+                // 組合新網址 (記得把 hash 加回去)
+                const targetURL = `${origin}/?${newSearch.substring(1)}${hash}`;
+
+                // 執行跳轉
+                window.location.replace(targetURL);
+            } else {
+                // 如果沒有路徑，手動導回首頁
+                window.location.replace(origin);
+            }*/ 
+        };
+
+        jumpToBook();
+    </script>
+</body>
+</html>
