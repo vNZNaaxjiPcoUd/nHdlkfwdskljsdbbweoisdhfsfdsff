@@ -443,7 +443,7 @@ a.visited {
 }
 
 a {
-  display: inline-block; /* 關鍵：必須是 block 或 inline-block 才能觸發 ::first-letter */
+  /*display: inline-block; /* 關鍵：必須是 block 或 inline-block 才能觸發 ::first-letter */
   text-decoration: none;
   color: #cccccc;        /* 你的主文字色 */
   transition: 0.3s;
@@ -576,7 +576,7 @@ p {
 
 /* 圖片樣式 */
 img {
-    max-width: min(96%, 1200px);/* 圖片不超過父容器 */
+    max-width: min(96%, 2400px);/* 圖片不超過父容器 */
     width: auto; /* 圖片寬度與 body 一致（92%） */
     height: auto; /* 保持比例 */
     display: block; /* 確保居中 */
