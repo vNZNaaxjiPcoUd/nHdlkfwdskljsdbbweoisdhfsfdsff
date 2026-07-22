@@ -576,7 +576,7 @@ p {
 
 /* 圖片樣式 */
 img {
-    max-width: min(85%, 1200px);/* 圖片不超過父容器 */
+    max-width: min(96%, 1200px);/* 圖片不超過父容器 */
     width: auto; /* 圖片寬度與 body 一致（92%） */
     height: auto; /* 保持比例 */
     display: block; /* 確保居中 */
