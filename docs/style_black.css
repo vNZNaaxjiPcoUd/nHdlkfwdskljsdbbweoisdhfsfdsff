@@ -810,3 +810,43 @@ footer {
 .toc-sidebar.open {
   right: 0;                 /* 【修改】變成 0，目錄就會從右邊滑進畫面內 */
 }
+
+
+        .toc-button-list {
+            display: flex !important;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px; 
+            user-select: none;
+            box-sizing: border-box;
+        }
+
+        .toc-button {
+            background: linear-gradient(145deg, #f7d6b5, #e0bfa0);
+            color: #2b3a2c; 
+            border: 1px solid #e6c5a5;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 1px 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            margin: 0;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            outline: none;
+            user-select: none;
+        }
+
+        .toc-button:hover {
+            background: linear-gradient(145deg, #fae2cc, #f7d6b5);
+            border-color: #ffdcb8;
+            transform: translateY(-2px) scale(1.05); 
+            box-shadow: 0 4px 10px rgba(247, 214, 181, 0.35);
+        }
+
+        .toc-button:active {
+            background: linear-gradient(145deg, #e0bfa0, #ccab8d);
+            transform: translateY(1px) scale(0.98); 
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            transition: all 0.1s ease;
+        }
