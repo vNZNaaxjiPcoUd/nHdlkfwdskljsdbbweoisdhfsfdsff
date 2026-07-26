@@ -7,100 +7,19 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="雲記">
-    <title>雲記</title>
+    <title>記</title>
 
     <script src="crypto-js.min.js"></script>
     <script src="marked.min.js"></script>
     <script src="mermaid.min.js"></script>
-    <script src="index.umd.js"></script>
+    <script src="umd.js"></script>
     <script src="d3@7.js"></script>
     <script src="markmap-lib.js"></script>
     <script src="markmap-view.js"></script>
-
-
-    <script>
-        window.updateWebManifest = function(customName) {
-            window.title = "雲記";
-            const surl  = window.location.origin + "/";
-            const currentUrl = window.location.href;
-
-            const myManifest = {
-                "id": currentUrl,
-                "name": customName || "雲記",
-                "short_name": customName || "雲記",
-                "description": "雲記是一款基於瀏覽器的加密筆記應用，提供安全的本地加密和雲端儲存功能。",
-                "display": "standalone",
-                "theme_color": "#2196F3",
-                "background_color": "#F0F0F0",
-                "start_url": currentUrl, 
-                "scope": surl,
-                "icons": [
-                    { "src": "https://h.jwint.net/favicon192.png", "sizes": "192x192", "type": "image/png" },
-                    { "src": "https://h.jwint.net/favicon512.png", "sizes": "512x512", "type": "image/png" }
-                ],
-                "orientation": "portrait"
-            };
-
-            const stringManifest = JSON.stringify(myManifest);
-            const manifestDataURI = 'data:application/json;charset=utf-8,' + encodeURIComponent(stringManifest);
-            
-            let link = document.getElementById('dynamic-manifest');
-            if (!link) {
-                link = document.createElement('link');
-                link.id = 'dynamic-manifest';
-                link.rel = 'manifest';
-                document.head.appendChild(link);
-            }
-            link.href = manifestDataURI;
-        };
-
-        (function() {
-            const paramsFromURL = new URLSearchParams(window.location.search);
-            const bParam = paramsFromURL.get('book');
-            window.updateWebManifest(bParam);
-        })();
-    </script>
+    <script src="manifest.js"></script>
+    <script defer src="ynote.obf.js"></script>
     <link rel="stylesheet" href="./style_black.css">
-    <style>
-        .toc-button-list {
-            display: flex !important;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px; 
-            user-select: none;
-            box-sizing: border-box;
-        }
 
-        .toc-button {
-            background: linear-gradient(145deg, #f7d6b5, #e0bfa0);
-            color: #2b3a2c; 
-            border: 1px solid #e6c5a5;
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: 600;
-            padding: 1px 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            margin: 0;
-            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            outline: none;
-            user-select: none;
-        }
-
-        .toc-button:hover {
-            background: linear-gradient(145deg, #fae2cc, #f7d6b5);
-            border-color: #ffdcb8;
-            transform: translateY(-2px) scale(1.05); 
-            box-shadow: 0 4px 10px rgba(247, 214, 181, 0.35);
-        }
-
-        .toc-button:active {
-            background: linear-gradient(145deg, #e0bfa0, #ccab8d);
-            transform: translateY(1px) scale(0.98); 
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-            transition: all 0.1s ease;
-        }
-    </style>
 </head>
 <body>
     <div class="main-container">
@@ -165,7 +84,6 @@
         <button id="cancelCmd" style="background-color: #ffd700; color: #333333; border: none; border-radius: 10px; padding: 5px 10px; font-weight: bold; cursor: pointer; margin: 0 6px; box-shadow: 0 2px 0 #ccaa00;">取消</button>    
     </dialog>
 
-    <script src="ynote.obf.js"></script>
 
 </body>
 
