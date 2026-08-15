@@ -435,18 +435,12 @@ html, body {
 
 
 
-
-a,
-a.visited {
-	color: inherit;
-	text-decoration: none;
-}
-
-a {
+a, a.visited {
   /*display: inline-block; /* 關鍵：必須是 block 或 inline-block 才能觸發 ::first-letter */
   text-decoration: none;
   color: lightgoldenrodyellow;        /* 你的主文字色 */
   transition: 0.3s;
+  font-weight: 300;
 }
 
 /* 針對第一個字的強調 */
