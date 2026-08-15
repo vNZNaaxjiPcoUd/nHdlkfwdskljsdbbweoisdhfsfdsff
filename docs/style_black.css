@@ -445,7 +445,7 @@ a.visited {
 a {
   /*display: inline-block; /* 關鍵：必須是 block 或 inline-block 才能觸發 ::first-letter */
   text-decoration: none;
-  color: #dddddd;        /* 你的主文字色 */
+  color: lightgoldenrodyellow;        /* 你的主文字色 */
   transition: 0.3s;
 }
 
