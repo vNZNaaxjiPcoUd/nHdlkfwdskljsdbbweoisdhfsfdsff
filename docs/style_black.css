@@ -569,8 +569,9 @@ h6:hover {
 
 /* 粗體字 */
 b, strong {
-    font-weight: 600;
-    color: #0eda03; /* 淺藍 */
+    font-weight: 500;
+    /*color: #0eda03; /* 淺藍 */
+    color: #87ed87;
     transition: color 0.3s ease;
 }
 
@@ -578,16 +579,18 @@ b, strong {
 /* 斜體字 */
 i, em {
     font-style: italic;
-    font-weight: 300;
-    color: #0eda03; 
+    /*font-weight: 400;*/
+    /*color: #0eda03; */
+    color: #87ed87;
     transition: transform 0.3s ease;
 }
 
 /* 粗體斜體字 */
 b i, strong em, i b, em strong {
     font-style: italic;
-    font-weight: 600;
-    color: #0eda03; 
+    font-weight: 500;
+    /*color: #0eda03; */
+    color: #87ed87;
     transition: transform 0.3s ease;
 }
 
