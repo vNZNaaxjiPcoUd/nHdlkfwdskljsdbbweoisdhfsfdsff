@@ -886,13 +886,13 @@ footer {
         }
 
 
-@media (width > 4096px) { html { font-size: 200%; } }
-@media (max-width: 4096px) { html { font-size: 180%; } }
-@media (max-width: 3120px) { html { font-size: 160%; } }
-@media (max-width: 2200px) { html { font-size: 140%; } }
-@media (max-width: 1920px) { html { font-size: 130%; } }
-@media (max-width: 1440px) { html { font-size: 120%; } }
+@media (width > 4096px) { html { font-size: 165%; } }
+@media (max-width: 4096px) { html { font-size: 155%; } }
+@media (max-width: 3120px) { html { font-size: 145%; } }
+@media (max-width: 2200px) { html { font-size: 135%; } }
+@media (max-width: 1920px) { html { font-size: 125%; } }
+@media (max-width: 1440px) { html { font-size: 115%; } }
 @media (max-width: 1024px) { html { font-size: 110%; } }
-@media (max-width: 768px)  { html { font-size: 100%; } }
+@media (max-width: 768px)  { html { font-size: 105%; } }
 @media (max-width: 480px)  { html { font-size: 100%; } }
 
