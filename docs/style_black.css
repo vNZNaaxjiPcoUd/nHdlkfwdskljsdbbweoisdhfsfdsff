@@ -454,7 +454,7 @@ a::first-letter {
   font-size: 1.0em;      /* 放大 */
   font-weight: 300;     /* 加粗 */
   letter-spacing: 0.02em;
-  color: #fff875a9;  
+  color: #0eda03;  
   /* margin-right: 2px;     與後方文字保持微小間距 */
 }
 
@@ -473,7 +473,7 @@ a:hover::first-letter {
 /* 標題樣式 */
 h1 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700; /* 粗體 */
     color: #2ecc71;
     letter-spacing: 0.05em; /* 字母間距 */
@@ -485,15 +485,15 @@ h1 {
 }
 
 h1:hover {
-    color: #58d68d; /* 懸停時變亮 */
+    color: #2ecc71; /* 懸停時變亮 */
     transform: scale(0.995);
 }
 
 h2 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 500; /* 中等粗體 */
-    color: #a2d149; /* 金色 */
+    color: #59d68d; /* 金色 */
     letter-spacing: 0.03em;
     margin: 1.5em 0 0.2em;
     padding-bottom: 0.1em; /* 添加輕微底部間距，與h1一致 */
@@ -502,7 +502,7 @@ h2 {
 }
 
 h2:hover {
-    color: #c1e18a; /* 懸停時變亮金色 */
+    color: #59d68d; /* 懸停時變亮金色 */
     /*transform: scale(1.02); /* 輕微放大，與其他元素懸停效果一致 */
     transform: scale(0.995);
 }
@@ -511,7 +511,7 @@ h3 {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.4rem; /* 比h2小，保持層次 */
     font-weight: 500; /* 中等粗體，與h2一致 */
-    color: #f1c40f;
+    color: #74da9f;
     letter-spacing: 0.02em;
     margin: 1.2em 0 0.2em;
     padding-bottom: 0.1em;
@@ -520,26 +520,59 @@ h3 {
 }
 
 h3:hover {
-    color: #f4d31d;
+    color: #74da9f;
     /*transform: scale(1.02); /* 與h2一致的懸停效果 */
     transform: scale(0.995);
 }
 
 h4 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.2rem; /* 比h3更小 */
+    font-size: 1.3rem; /* 比h3更小 */
     font-weight: 400; /* 較輕的字重，區分層次 */
-    color: #e67e22;
+    color: #7cda74;
     letter-spacing: 0.01em;
     margin: 1em 0 0.2em;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 h4:hover {
-    color: #f39c12;
+    color: #7cda74;
     /*transform: scale(1.02); /* 一致的懸停效果 */
     transform: scale(0.995);
 }
+
+h5 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem; /* 比h3更小 */
+    font-weight: 400; /* 較輕的字重，區分層次 */
+    color: #a4da74;
+    letter-spacing: 0.01em;
+    margin: 1em 0 0.2em;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+h5:hover {
+    color: #a4da74;
+    /*transform: scale(1.02); /* 一致的懸停效果 */
+    transform: scale(0.995);
+}
+
+h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem; /* 比h3更小 */
+    font-weight: 400; /* 較輕的字重，區分層次 */
+    color: #c1e790;
+    letter-spacing: 0.01em;
+    margin: 1em 0 0.2em;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+h6:hover {
+    color: #c1e790;
+    /*transform: scale(1.02); /* 一致的懸停效果 */
+    transform: scale(0.995);
+}
+
 /* 粗體字 */
 b, strong {
     font-weight: 600;
@@ -677,7 +710,7 @@ footer {
 }
 
 
-/* 響應式設計 */
+/* 響應式設計 
 @media (width > 4096px) { font-size: 2rem;}
 @media (max-width: 4096px) { font-size: 1.8rem; }
 @media (max-width: 3120px) { font-size: 1.6rem; }
@@ -686,7 +719,7 @@ footer {
 @media (max-width: 1440px) { font-size: 1.2rem; }
 @media (max-width: 1024px) { font-size: 1.1rem; }
 @media (max-width: 768px)  { font-size: 1rem; }
-@media (max-width: 480px)  { font-size: 1rem; }
+@media (max-width: 480px)  { font-size: 1rem; }*/
 
 
 /* end of special markdown syntax -----------------------------------------------------------------------------------*/
@@ -851,3 +884,15 @@ footer {
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
             transition: all 0.1s ease;
         }
+
+
+@media (width > 4096px) { html { font-size: 200%; } }
+@media (max-width: 4096px) { html { font-size: 180%; } }
+@media (max-width: 3120px) { html { font-size: 160%; } }
+@media (max-width: 2200px) { html { font-size: 140%; } }
+@media (max-width: 1920px) { html { font-size: 130%; } }
+@media (max-width: 1440px) { html { font-size: 120%; } }
+@media (max-width: 1024px) { html { font-size: 110%; } }
+@media (max-width: 768px)  { html { font-size: 100%; } }
+@media (max-width: 480px)  { html { font-size: 100%; } }
+
