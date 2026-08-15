@@ -58,7 +58,7 @@ html, body {
     /* 順序為：上 右 下 左。下方加入 env() 避免文字與 Home 橫條重疊 */
     padding: 0 10px env(safe-area-inset-bottom) 10px;
     text-align: center;
-    font-size: 13px;
+        font-size: 0.6rem;
     font-weight: bold;
     background-color: #b9d68bfa;
     z-index: 1000;
@@ -84,7 +84,7 @@ html, body {
         transition: 0.3s;
         margin-right: 11px;
         border-radius: 10px;
-        font-size: 16px;
+        font-size: 1rem;
         color: white;
     }
 
@@ -147,7 +147,7 @@ html, body {
         border: none; 
         border-radius: 4px; 
         cursor: pointer; 
-        font-size: 16px;
+        font-size: 1rem;
     }
 
     /* 按鈕顏色分類 */
@@ -229,7 +229,7 @@ html, body {
         transition: 0.3s;
         border-radius: 5px 5px 0 0;
         margin-right: 2px;
-        font-size: 16px;
+        font-size: 1rem;
         margin-bottom: 0px; /* 換行時增加上下間距 */
         display: flex;
         align-items: center;
@@ -252,7 +252,7 @@ html, body {
         margin-left: 8px;
         color: #999;
         font-weight: bold;
-        font-size: 16px;
+        font-size: 1rem;
         line-height: 1;
         padding: 0 2px;
     }
@@ -285,7 +285,7 @@ html, body {
         margin-bottom: 5px;
         border: 2px solid #2196F3;
         border-radius: 4px;
-        font-size: 16px;
+        font-size: 1rem;
         box-sizing: border-box;
     }
 
@@ -295,7 +295,7 @@ html, body {
         padding: 5px;
         border: 1px solid #aaa;
         border-radius: 5px;
-        font-size: 18px;
+        font-size: 1rem;
         line-height: 1.6;
         resize: none;
         box-sizing: border-box;
@@ -336,7 +336,7 @@ html, body {
         border: none; 
         border-radius: 4px; 
         cursor: pointer; 
-        font-size: 16px;
+        font-size: 1rem;
     }
 
     #nameBtn, #listBtn , #delBtn {
@@ -353,7 +353,7 @@ html, body {
         border: none; 
         border-radius: 4px; 
         cursor: pointer; 
-        font-size: 13px;
+        font-size: 1rem;
     }
 
     #delNameDef {
@@ -376,7 +376,7 @@ html, body {
         z-index: 999;
     }
     #passwordInput {
-        font-size: 28px;
+        font-size: 2rem;
         padding: 15px 20px;
         width: 300px;
         text-align: center;
@@ -392,7 +392,7 @@ html, body {
     .tip {
         margin-top: 20px;
         color: #888;
-        font-size: 16px;
+        font-size: 1rem;
     }
 
     #tabAbtn ,#noshow{
@@ -424,7 +424,7 @@ html, body {
 /*Special markdown syntax ----------------------------------------------------------------------------------------*/
 
     font-family: 'Inter', "PingFang TC", "Apple LiGothic Medium", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
-    font-size: 18px; /* 基礎文字大小 */
+    font-size: 1rem; /* 基礎文字大小 */
     line-height: 1.7; /* 行距 */
     letter-spacing: 0.03em; /* 字母間距 */
     color: #cccccc; /* 淺灰文字，適應黑底 */
@@ -677,15 +677,15 @@ footer {
 
 
 /* 響應式設計 */
-@media (width > 4096px) { font-size: 26px;}
-@media (max-width: 4096px) { font-size: 24px; }
-@media (max-width: 3120px) { font-size: 22px; }
-@media (max-width: 2200px) { font-size: 20px; }
-@media (max-width: 1920px) { font-size: 19px;}
-@media (max-width: 1440px) { font-size: 18px; }
-@media (max-width: 1024px) { font-size: 17px; }
-@media (max-width: 768px)  { font-size: 16px; }
-@media (max-width: 480px)  { font-size: 16px; }
+@media (width > 4096px) { font-size: 2rem;}
+@media (max-width: 4096px) { font-size: 1.8rem; }
+@media (max-width: 3120px) { font-size: 1.6rem; }
+@media (max-width: 2200px) { font-size: 1.4rem; }
+@media (max-width: 1920px) { font-size: 1.3rem;}
+@media (max-width: 1440px) { font-size: 1.2rem; }
+@media (max-width: 1024px) { font-size: 1.1rem; }
+@media (max-width: 768px)  { font-size: 1rem; }
+@media (max-width: 480px)  { font-size: 1rem; }
 
 
 /* end of special markdown syntax -----------------------------------------------------------------------------------*/
@@ -712,7 +712,7 @@ footer {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 0.8rem;
 }
 
 #mainTabs {
@@ -722,7 +722,7 @@ footer {
 #mdvBtn {
     background-color: #f4f4f9;
     color: #f4f4f9;
-    font-size: 16px;
+    font-size: 1rem;
     padding: 0px;
     margin: 0px;
 }
@@ -738,7 +738,7 @@ footer {
             background-color: #26ff003f; /* 按鈕背景顏色 (藍色) */
             color: white;         /* 箭頭顏色 (白色) */
             border: none;         /* 移除預設邊框 */
-            font-size: 14px;      /* 箭頭大小 */
+            font-size: 0.8rem;      /* 箭頭大小 */
             cursor: pointer;      /* 滑鼠移過去變成手指形狀 */
             z-index: 1000;        /* 確保按鈕不會被其他元素蓋住 */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 加上一點陰影增加立體感 */
@@ -767,7 +767,7 @@ footer {
             font-family: Arial, sans-serif;
             background-color: rgba(128, 128, 128, 0.389); /* 你可以根據喜好修改背景色 */
             color: white;
-            font-size: 16px; 
+            font-size: 1rem; 
         }
 
 /* --- 按鈕樣式 --- */
@@ -816,7 +816,7 @@ footer {
             display: flex !important;
             justify-content: space-between;
             align-items: center;
-            font-size: 13px; 
+            font-size: 0.8rem; 
             user-select: none;
             box-sizing: border-box;
         }
@@ -826,7 +826,7 @@ footer {
             color: #2b3a2c; 
             border: 1px solid #e6c5a5;
             border-radius: 3px;
-            font-size: 12px;
+            font-size: 0.7rem;
             font-weight: 600;
             padding: 1px 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
