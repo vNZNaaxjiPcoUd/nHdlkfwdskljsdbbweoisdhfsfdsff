@@ -59,7 +59,7 @@ button {
   left: 0;
   width: 100%;
   /* 順序為：上 右 下 左。下方加入 env() 避免文字與 Home 橫條重疊 */
-  padding: 0 10px env(safe-area-inset-bottom) 10px;
+  padding: 0 0.6rem env(safe-area-inset-bottom) 0.6rem;
   text-align: center;
   font-size: 0.6rem;
   font-weight: bold;
@@ -81,10 +81,10 @@ button {
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 4px 16px;
+  padding: 0.2rem 0.7rem;
   transition: 0.3s;
-  margin-right: 11px;
-  border-radius: 10px;
+  margin-right: 0.2rem;
+  border-radius: 0.6rem;
   color: white;
 }
 
