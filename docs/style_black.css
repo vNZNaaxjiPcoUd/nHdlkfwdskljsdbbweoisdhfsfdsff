@@ -222,6 +222,10 @@ button {
   flex-shrink: 0;
 }
 
+.btn-text{
+  margin-right: 0.42rem;
+  margin-left: 0.2rem;
+}
 /* 分頁全都列出來
     .sub-tabs {
         display: flex;
@@ -240,7 +244,7 @@ button {
   padding: 1px 5px;
   transition: 0.3s;
   border-radius: 5px 5px 0 0;
-  margin-right: 2px;
+  margin-right: 1px;
   margin-bottom: 0px; /* 換行時增加上下間距 */
   display: flex;
   align-items: center;
@@ -263,7 +267,7 @@ button {
 }
 
 .delete-sub-btn {
-  margin-left: 8px;
+  margin-left: 2px;
   color: #999;
   font-weight: bold;
   line-height: 1;
