@@ -733,7 +733,7 @@ pre, code {
     font-family: "Courier New", monospace;
     background-color: #1a1a1a;
     color: #cccccc;
-    font-size: 0.7rem;
+
 }
 
 /* 僅針對程式碼區塊 (多行) 設定區塊行為與滾動條 */
@@ -743,6 +743,7 @@ pre {
     overflow-y: auto;
     display: block;
     padding: 10px; /* 建議加入適當內距讓區塊更好看 */
+    font-size: 0.7rem;
 }
 
 /* 針對行內程式碼調整 (覆蓋可能繼承的問題) */
