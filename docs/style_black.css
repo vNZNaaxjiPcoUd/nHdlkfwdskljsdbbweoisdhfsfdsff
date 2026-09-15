@@ -715,22 +715,48 @@ button {
     /*color: #d4a017; /* 懸停變金色 */
   }
 
-  /* 代碼塊 */
+  /* 代碼塊 
   pre,
   code {
     font-family: "Courier New", monospace;
-    background-color: #1a1a1a; /* 深黑背景 */
-    color: #cccccc; /* 淺灰文字 */
-    white-space: pre; /* 不換行，保留原始格式 */
-    overflow-x: auto; /* 水平滾動 */
-    overflow-y: auto;
-    /*max-height: 300px;           /* 垂直也限制 */
+    background-color: #1a1a1a; 
+    color: #cccccc; 
+    white-space: pre; 
+    overflow-x: auto; 
+    overflow-y: auto;     
     display: block;
-    /*padding: 12px;
-    border-radius: 4px;
-    border: 1px solid #333333;*/
+    
     font-size: 0.7rem;
-  }
+  }*/
+
+pre, code {
+    font-family: "Courier New", monospace;
+    background-color: #1a1a1a;
+    color: #cccccc;
+    font-size: 0.7rem;
+}
+
+/* 僅針對程式碼區塊 (多行) 設定區塊行為與滾動條 */
+pre {
+    white-space: pre;
+    overflow-x: auto;
+    overflow-y: auto;
+    display: block;
+    padding: 10px; /* 建議加入適當內距讓區塊更好看 */
+}
+
+/* 針對行內程式碼調整 (覆蓋可能繼承的問題) */
+code {
+    /* 瀏覽器預設就是 inline，這裡不加 display: block; */
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+/* 避免 pre 裡面的 code 標籤重複套用到行內的 padding */
+pre code {
+    padding: 0;
+    background-color: transparent;
+}
 
   /* 頁腳樣式 */
   footer {
