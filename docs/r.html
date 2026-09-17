@@ -69,23 +69,29 @@
         <input type="text" id="passwordInput" placeholder="訊息內容" autocomplete="off" value="" >
     </div>
 
-    <dialog id="newPwdDialog"  style="background-color: #1a1a1a; color: #d3d3d3; border: none; border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
-        <input type="password" id="newPwd1" placeholder="輸入新密碼" style="background: transparent; border: none; border-bottom: 2px solid #ffd700; color: #ffffff; padding: 8px 12px; outline: none; font-size: 16px; text-align: center; width: 80%;"><br><br>
-        <input type="password" id="newPwd2" placeholder="再次確認密碼" style="background: transparent; border: none; border-bottom: 2px solid #ffd700; color: #ffffff; padding: 8px 12px; outline: none; font-size: 16px; text-align: center; width: 80%;"><br><br>
-        <button id="confirmBtn" style="background-color: #ffd700; color: #333333; border: none; border-radius: 25px; padding: 10px 24px; font-weight: bold; cursor: pointer; margin: 0 10px; box-shadow: 0 4px 0 #ccaa00;">確定</button>
-        <button id="cancelBtn" style="background-color: #ffd700; color: #333333; border: none; border-radius: 25px; padding: 10px 24px; font-weight: bold; cursor: pointer; margin: 0 10px; box-shadow: 0 4px 0 #ccaa00;">取消</button>
+    <dialog id="newPwdDialog" style="background-color: #333333; color: #f5f5f5; border: none; border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6);">
+        <input type="password" id="newPwd1" placeholder="輸入新密碼" style="background: transparent; border: none; border-bottom: 2px solid #81c784; color: #ffffff; padding: 8px 12px; outline: none; font-size: 16px; text-align: center; width: 80%;"><br><br>
+        <input type="password" id="newPwd2" placeholder="再次確認密碼" style="background: transparent; border: none; border-bottom: 2px solid #81c784; color: #ffffff; padding: 8px 12px; outline: none; font-size: 16px; text-align: center; width: 80%;"><br><br>
+        <button id="confirmBtn" style="background-color: #a5d6a7; color: #1b5e20; border: none; border-radius: 25px; padding: 0.1rem 24px; font-weight: bold; cursor: pointer; margin: 0 10px; box-shadow: 0 4px 0 #519657;">確定</button>
+        <button id="cancelBtn" style="background-color: #a5d6a7; color: #1b5e20; border: none; border-radius: 25px; padding: 0.1rem 24px; font-weight: bold; cursor: pointer; margin: 0 10px; box-shadow: 0 4px 0 #519657;">取消</button>
     </dialog>
 
-    <dialog id="PwdDialog" style="background-color: #1a1a1a; color: #d3d3d3; border: none; border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
-        <input type="password" id="pwdNow" placeholder="輸入密碼" style="background: transparent; border: none; border-bottom: 2px solid #ffd700; color: #ffffff; padding: 8px 12px; outline: none; font-size: 16px; text-align: center; width: 80%;"><br><br>
-        <button id="confirmBtnPwdDialog" style="background-color: #ffd700; color: #333333; border: none; border-radius: 25px; padding: 10px 24px; font-weight: bold; cursor: pointer; margin: 0 10px; box-shadow: 0 4px 0 #ccaa00;">確定</button>
+    <dialog id="PwdDialog" style="background-color: #333333; color: #f5f5f5; border: none; border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6);">
+        <input type="password" id="pwdNow" placeholder="輸入密碼" style="background: transparent; border: none; border-bottom: 2px solid #81c784; color: #ffffff; padding: 8px 12px; outline: none; font-size: 16px; text-align: center; width: 80%;"><br><br>
+        <button id="confirmBtnPwdDialog" style="background-color: #a5d6a7; color: #1b5e20; border: none; border-radius: 25px; padding: 0.1rem 24px; font-weight: bold; cursor: pointer; margin: 0 10px; box-shadow: 0 4px 0 #519657;">確定</button>
     </dialog>
 
-    <dialog id="inputDialog" style="background-color: #1a1a1a; color: #d3d3d3; border: none; border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
-        <h2 id="inpTitle" style="margin-top: 0; color: #ffd700; font-size: 16px; font-weight: bold; margin-bottom: 5px;"></h2>
-        <input type="text" id="inputT" placeholder="輸入內容" style="background: transparent; border: none; border-bottom: 2px solid #ffd700; color: #ffffff; padding: 8px 12px; outline: none; font-size: 16px; text-align: center; width: 80%;"><br><br>
-        <button id="okCmd" style="background-color: #ffd700; color: #333333; border: none; border-radius: 10px; padding: 5px 10px; font-weight: bold; cursor: pointer; margin: 0 6px; box-shadow: 0 2px 0 #ccaa00;">確定</button>
-        <button id="cancelCmd" style="background-color: #ffd700; color: #333333; border: none; border-radius: 10px; padding: 5px 10px; font-weight: bold; cursor: pointer; margin: 0 6px; box-shadow: 0 2px 0 #ccaa00;">取消</button>    
+    <dialog id="inputDialog" style="background-color: #333333; color: #f5f5f5; border: none; border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6);">
+        <h2 id="inpTitle" style="margin-top: 0; color: #a5d6a7; font-size: 16px; font-weight: bold; margin-bottom: 5px;"></h2>
+        <input type="text" id="inputT" placeholder="輸入內容" style="background: transparent; border: none; border-bottom: 2px solid #81c784; color: #ffffff; padding: 8px 12px; outline: none; font-size: 16px; text-align: center; width: 80%;"><br><br>
+        <button id="okCmd" style="background-color: #a5d6a7; color: #1b5e20; border: none; border-radius: 10px; padding: 0.1rem 10px; font-weight: bold; cursor: pointer; margin: 0 6px; box-shadow: 0 2px 0 #519657;">確定</button>
+        <button id="cancelCmd" style="background-color: #a5d6a7; color: #1b5e20; border: none; border-radius: 10px; padding: 0.1rem 10px; font-weight: bold; cursor: pointer; margin: 0 6px; box-shadow: 0 2px 0 #519657;">取消</button>    
+    </dialog>
+
+    <dialog id="msgDialog" style="background-color: #333333; color: #f5f5f5; border: none; border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6);">
+        <h2 id="msgCheckText" style="margin-top: 0; color: #a5d6a7; font-size: 16px; font-weight: bold; margin-bottom: 5px;"></h2>
+        <button id="okbtn" style="background-color: #a5d6a7; color: #1b5e20; border: none; border-radius: 10px; padding: 0.1rem 10px; font-weight: bold; cursor: pointer; margin: 0 6px; box-shadow: 0 2px 0 #519657;">確定</button>
+        <button id="cancelbtn" style="background-color: #a5d6a7; color: #1b5e20; border: none; border-radius: 10px; padding: 0.1rem 10px; font-weight: bold; cursor: pointer; margin: 0 6px; box-shadow: 0 2px 0 #519657;">取消</button>    
     </dialog>
 
 
