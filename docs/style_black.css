@@ -937,6 +937,65 @@ pre code {
   transition: all 0.1s ease;
 }
 
+/* dialog style */
+.custom-dialog {
+    background-color: #333333;
+    color: #f5f5f5;
+    border: none;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+/* 對話框標題樣式 */
+.dialog-title {
+    margin-top: 0;
+    color: #a5d6a7;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* 輸入框共用樣式 */
+.custom-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #81c784;
+    color: #ffffff;
+    padding: 8px 12px;
+    outline: none;
+    font-size: 16px;
+    text-align: center;
+    width: 80%;
+}
+
+/* 樣式 A 按鈕 (較大圓角與陰影，用於密碼相關對話框) */
+.btn-primary {
+    background-color: #a5d6a7;
+    color: #1b5e20;
+    border: none;
+    border-radius: 25px;
+    padding: 0.1rem 24px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 10px;
+    box-shadow: 0 4px 0 #519657;
+}
+
+/* 樣式 B 按鈕 (較小圓角與陰影，用於一般輸入與訊息對話框) */
+.btn-secondary {
+    background-color: #a5d6a7;
+    color: #1b5e20;
+    border: none;
+    border-radius: 10px;
+    padding: 0.1rem 10px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 6px;
+    box-shadow: 0 2px 0 #519657;
+}
+
 @media (width > 4096px) { html { font-size: 165%; } }
 @media (max-width: 4096px) { html { font-size: 155%; } }
 @media (max-width: 3120px) { html { font-size: 145%; } }
