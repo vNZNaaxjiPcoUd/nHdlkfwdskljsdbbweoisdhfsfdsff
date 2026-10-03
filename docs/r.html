@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <base target="_blank">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#000000">
+    <title>記</title>
+
+    <script src="crypto-js.min.js"></script>
+    <script src="marked.min.js"></script>
+    <script src="purify.min.js"></script>
+    <script src="mermaid.min.js"></script>
+    <script src="umd.js"></script>
+    <script src="d3@7.js"></script>
+    <script src="markmap-lib.js"></script>
+    <script src="markmap-view.js"></script>
+    <script src="manifest.js"></script>
+    <script src="keepLocal.v1.js"></script>
+    <script defer src="ynote.js"></script>
+    <link rel="stylesheet" href="style_black.css">
+
+</head>
+<body>
+    <div class="main-container">
+        <div class="tabs" id="mainTabs" >
+            <div id="topBnt">
+                <button class="tab-button" id="saveLocalBtn" title="本地保存" >暫存</button>
+                <button class="tab-button" id="readLocalBtn" title="本地讀取" >取</button>
+                <button class="tab-button" title="閱讀模式" id="mdViewBtn" >拓</button>
+                <button class="tab-button" id="getDBBtn2" title="雲下載更新" >雲取</button>
+                <button class="tab-button" id="saveDBBtn2" title="保存並上傳雲" >存</button>
+                <button class="tab-button" id="addSubPageBtn" title="新增分頁">➕</button>
+            </div>
+        </div>
+        <div id="mkdwPage">
+            <button id="toc-btn" style="display:none">☰</button>
+            <button id="backToTopBtn" title="回到最前面" hidden>^</button>
+            <nav id="toc" class="toc-sidebar"></nav>
+
+            <div id="mdShowArea" style="display:none;">
+                <div id="mdBtnTab" style="display:none;">
+                    <button class="mdBtn" id="markdownReloadBtn">reload</button>
+                    <button class="mdBtn" id="markdownViewBtn" >close</button>
+                </div>
+                <div id="mdText"></div>
+                <svg id="markmap"></svg>
+            </div>
+        </div>
+
+        <div id="TabA" class="tab-content">
+            <button id="encBtn" >解密</button>
+            <textarea id="encryptedContent" placeholder="在此貼上密文..."></textarea>
+        </div>
+
+        <div id="TabB" class="tab-content">
+            <div class="sub-tabs-header">
+                <div id="subTabNav" class="sub-tabs"></div>
+            </div>
+            <div id="subTabContentContainer" class="sub-tab-content-container"></div>
+        </div>
+    </div>
+    
+    <div id="statusMessage" class="status-info" title="閱讀/編輯" >Load...</div>
+    <div id="passwordOverlay" style="display:none">
+        <input type="text" id="passwordInput" placeholder="訊息內容" autocomplete="off" value="" >
+    </div>
+
+    <dialog id="newPwdDialog" class="custom-dialog">
+        <input type="password" id="newPwd1" placeholder="輸入新密碼" class="custom-input"><br><br>
+        <input type="password" id="newPwd2" placeholder="再次確認密碼" class="custom-input"><br><br>
+        <button id="confirmBtn" class="btn-primary">確定</button>
+        <button id="cancelBtn" class="btn-primary">取消</button>
+    </dialog>
+
+    <dialog id="PwdDialog" class="custom-dialog">
+        <h2 id="inpTitlePwdDialog" class="dialog-title"></h2>
+        <input type="password" id="pwdNow" placeholder="輸入" class="custom-input"><br><br>
+        <button id="confirmBtnPwdDialog" class="btn-primary">確定</button>
+    </dialog>
+
+    <dialog id="inputDialog" class="custom-dialog">
+        <h2 id="inpTitle" class="dialog-title"></h2>
+        <input type="text" id="inputT" placeholder="輸入" class="custom-input"><br><br>
+        <button id="okCmd" class="btn-secondary">確定</button>
+        <button id="cancelCmd" class="btn-secondary">取消</button>    
+    </dialog>
+
+    <dialog id="msgDialog" class="custom-dialog">
+        <h2 id="msgCheckText" class="dialog-title"></h2>
+        <button id="okbtn" class="btn-secondary">確定</button>
+        <button id="cancelbtn" class="btn-secondary">取消</button>    
+    </dialog>
+    
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('SW 註冊成功！Scope 為：', reg.scope))
+            .catch(err => console.error('SW 註冊失敗：', err));
+        }
+</script>
+
+</body>
+
+</html>
