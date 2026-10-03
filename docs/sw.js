@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'yn-v1.0.976666'; 
+const CACHE_NAME = 'yn-v1.0.9766666'; 
 
 
 const urlsToCache = [
