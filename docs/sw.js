@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'yn-v1.0.98'; 
+const CACHE_NAME = 'yn-v1.0.986'; 
 
 
 const urlsToCache = [
@@ -31,6 +31,7 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async cache => {
       console.log('開始快取檔案...');
+      console.log("版本",CACHE_NAME);
       for (const url of urlsToCache) {
         try { 
           await cache.add(url);
@@ -88,7 +89,6 @@ self.addEventListener('activate', event => {
 
       const cacheNames = await caches.keys();
       
-
       const deletePromises = cacheNames
         .filter(cacheName => cacheName !== CACHE_NAME)
         .map(async cacheName => {
