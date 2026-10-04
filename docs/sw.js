@@ -71,7 +71,7 @@ self.addEventListener('fetch', event => {
       try {
         return await fetch(event.request);
       } catch (error) {
-        console.error('離線且無快取：', event.request.url);
+        console.error('離線且無快取：', error, event.request.url);
         return new Response('<h1>離線中且尚無快取資料</h1>', {
           status: 533,
           headers: { 'Content-Type': 'text/html; charset=utf-8' }
