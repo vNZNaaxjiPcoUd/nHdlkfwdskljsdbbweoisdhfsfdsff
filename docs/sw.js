@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'yn-v1.0.97666666666'; 
+const CACHE_NAME = 'yn-v1.0.976666666666'; 
 
 
 const urlsToCache = [
@@ -21,6 +21,8 @@ const urlsToCache = [
   './keepLocal.v1.js',
   './purify.min.js',
   './favicon.ico',
+  './index',
+  './r',
   './'
 ];
 
