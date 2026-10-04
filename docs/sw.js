@@ -1,10 +1,9 @@
 
-const CACHE_NAME = 'yn-v1.0.976666666666'; 
+const CACHE_NAME = 'yn-v1.0.9766666666666'; 
 
 
 const urlsToCache = [
   './index.html',
-  './manifest.json',
   './icon-192.png',
   './icon-512.png',
   './style_black.css',
