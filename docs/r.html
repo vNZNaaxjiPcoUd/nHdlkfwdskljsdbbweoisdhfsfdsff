@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#000000">
-    <title>記</title>
+    <title>分享筆記。提供跨平台、跨裝置的雲端筆記服務，無需安裝即可透過瀏覽器直接存取。採用端對端高強度加密架構，落實本地解密，確保雲端零資料外洩風險。內建 Markdown 語法、心智圖與多樣化圖表支援，滿足專業排版需求。</title>
 
     <script src="crypto-js.min.js"></script>
     <script src="marked.min.js"></script>
@@ -19,16 +19,32 @@
     <script src="markmap-view.js"></script>
     <script src="manifest.js"></script>
     <script src="keepLocal.v1.js"></script>
-    <script defer src="ynote.js"></script>
+    <script defer src="ynote.org.js"></script>
     <link rel="stylesheet" href="style_black.css">
 
 </head>
 <body>
+    <div id="appInfo" style="background-color: black; color: black; display: none;">
+        <h3 id="重點及提要">重點及提要</h3>
+        <ul>
+        <li>提供跨平台、跨裝置的雲端筆記服務，無需安裝即可透過瀏覽器直接存取。</li>
+        <li>採用端對端高強度加密架構，落實本地解密，確保雲端零資料外洩風險。</li>
+        <li>內建 Markdown 語法、心智圖與多樣化圖表支援，滿足專業排版需求。</li>
+        <li>具備完整快捷鍵與進階指令系統，大幅提升文件管理與編輯效率。</li>
+        </ul>
+        <h3 id="系統概述與核心功能">系統概述與核心功能</h3>
+        <p>雲端筆記本是一款專為機動性與高安全性設計的隨身記事系統。首次開啟時僅需輸入書本名稱與密碼即可建立檔案。系統核心優勢如下：</p>
+        <ul>
+        <li>無縫跨裝置整合：使用者僅需保存專屬網址，即可在個人電腦、平板或手機等設備間流暢作業。於手機瀏覽器中點選「分享/加入主畫面」，即可轉為應用程式 (APP) 形式捷徑。</li>
+        <li>多元視覺化呈現：系統支援多種瀏覽視角，包含標準閱讀模式、心智圖層級模式，並完美整合 <a href="r#markdownSytax">Markdown 語法</a> 與 <a href="r#mermaid">Mermaid 圖表語法</a>。</li>
+        <li>彈性分類管理：允許無限制創建多本獨立筆記本，並支援在單一筆記本內新增多個分頁，以便系統化歸檔各類資訊。</li>
+        </ul>        
+    </div>
     <div class="main-container">
         <div class="tabs" id="mainTabs" >
             <div id="topBnt">
-                <button class="tab-button" id="saveLocalBtn" title="本地保存" >暫存</button>
                 <button class="tab-button" id="readLocalBtn" title="本地讀取" >暫取</button>
+                <button class="tab-button" id="saveLocalBtn" title="本地保存" >暫存</button>
                 <button class="tab-button" title="閱讀模式" id="mdViewBtn" >唯讀</button>
                 <button class="tab-button" id="getDBBtn2" title="雲下載更新" >取</button>
                 <button class="tab-button" id="saveDBBtn2" title="保存並上傳雲" >存</button>
