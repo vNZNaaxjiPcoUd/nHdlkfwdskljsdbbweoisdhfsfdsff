@@ -638,6 +638,10 @@ button {
     margin: 0.3em 0;
   }
 
+  hr {
+    border: none; /* 先移除預設的 3D 邊框 */
+    border-top: 1px solid rgb(20, 34, 23); /* 設定一條淺灰色的上邊框 */
+  }
   /* 圖片樣式 */
   img {
     max-width: min(96%, 2400px); /* 圖片不超過父容器 */
