@@ -352,8 +352,12 @@ button {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "PingFang TC",
+  /*font-family: "Inter", -apple-system, BlinkMacSystemFont, "PingFang TC",
     "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  xxxfont-family: "Lora", "Merriweather", "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  font-family: "Lora", "Noto Serif TC", "Songti TC", "Source Han Serif TC", "PMingLiU", serif;
+  font-family: "Geist", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;*/
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
   font-size: 1rem;
   font-weight: 200;
   line-height: 1.5em;
@@ -399,7 +403,7 @@ button {
 #mdShowArea h4,
 #mdShowArea h5,
 #mdShowArea h6 {
-  font-family: "Montserrat", sans-serif;
+  /*xxxfont-family: "Montserrat", sans-serif;*/
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -623,7 +627,7 @@ button {
   height: 100%;
   flex-grow: 1;
   display: flex;
-  font-family: Arial, sans-serif;
+  /*font-family: Arial, sans-serif;*/
   background-color: rgba(128, 128, 128, 0.389);
   color: #ffffff;
   font-size: 1rem;
