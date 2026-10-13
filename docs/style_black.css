@@ -355,11 +355,11 @@ button {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "PingFang TC",
     "Noto Sans TC", "Microsoft JhengHei", sans-serif;
   font-size: 1rem;
-  font-weight: 300;
-  line-height: 1.3em;
-  letter-spacing: 0.03em;
+  font-weight: 200;
+  line-height: 1.5em;
+  letter-spacing: 0.066em;
   color: #cccccc;
-  background-color: #000000;
+  background-color: #060606;
 }
 
 #mdShowArea code,
@@ -371,8 +371,8 @@ button {
 #mdShowArea a:visited {
   display: inline-block;
   text-decoration: none;
-  color: lightgoldenrodyellow;
-  font-weight: 300;
+  color: rgb(225, 225, 216);
+  font-weight: 200;
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -380,7 +380,7 @@ button {
   font-size: 1em;
   font-weight: 300;
   letter-spacing: 0.02em;
-  color: #0eda03;
+  color: rgb(225, 225, 206);
   transition: color 0.3s ease;
 }
 
