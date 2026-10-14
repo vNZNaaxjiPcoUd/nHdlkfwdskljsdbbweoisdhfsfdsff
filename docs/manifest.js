@@ -6,9 +6,9 @@
 
             const myManifest = {
                 "id": currentUrl,
-                "name": customName || "記",
-                "short_name": customName || "記",
-                "description": "記是一款瀏覽器的加密筆記本，提供安全的雲端加密儲存。",
+                "name": customName || "分享筆記",
+                "short_name": customName || "分享筆記",
+                "description": "分享筆記是一款瀏覽器的加密筆記本，提供安全的雲端加密儲存。",
                 "display": "standalone",
                 "theme_color": "#2196F3",
                 "background_color": "#F0F0F0",
