@@ -1,6 +1,4 @@
-
-const CACHE_NAME = 'yn-v1.0.16'; 
-
+const CACHE_NAME = 'yn-v1.0.1666'; 
 
 const urlsToCache = [
   './index.html',
@@ -25,13 +23,11 @@ const urlsToCache = [
   './'
 ];
 
-
-
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async cache => {
       console.log('開始快取檔案...');
-      console.log("版本",CACHE_NAME);
+      console.log("版本", CACHE_NAME);
       for (const url of urlsToCache) {
         try { 
           await cache.add(url);
@@ -42,9 +38,9 @@ self.addEventListener('install', event => {
       }
     })
   );
+  // 強制讓新 Service Worker 立即跳過等待期
   self.skipWaiting();
 });
-
 
 self.addEventListener('fetch', event => {
   if (event.request.url.includes('script.google.com')) {
@@ -53,12 +49,10 @@ self.addEventListener('fetch', event => {
 
   event.respondWith(
     (async () => {
-
       const cachedResponse = await caches.match(event.request, { ignoreSearch: true });
       if (cachedResponse) {
         return cachedResponse;
       }
-
 
       const url = new URL(event.request.url);
       if (event.request.mode === 'navigate' || url.pathname === '/' || url.pathname === '/index.html') {
@@ -66,7 +60,6 @@ self.addEventListener('fetch', event => {
                               await caches.match('./', { ignoreSearch: true });
         if (indexResponse) return indexResponse;
       }
-
 
       try {
         return await fetch(event.request);
@@ -81,12 +74,9 @@ self.addEventListener('fetch', event => {
   );
 });
 
-
-
 self.addEventListener('activate', event => {
   event.waitUntil(
     (async () => {
-
       const cacheNames = await caches.keys();
       
       const deletePromises = cacheNames
@@ -96,12 +86,10 @@ self.addEventListener('activate', event => {
           return await caches.delete(cacheName);
         });
 
-
       await Promise.all(deletePromises);
 
-
+      // 讓新的 Service Worker 立即開始控制現有的全部分頁
       await self.clients.claim();
     })()
   );
 });
-
