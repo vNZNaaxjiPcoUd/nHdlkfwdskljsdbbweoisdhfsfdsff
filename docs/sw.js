@@ -1,4 +1,7 @@
-const CACHE_NAME = 'yn-v1792077285543'; 
+const CACHE_NAME_HEAD = 'yn';
+
+
+const CACHE_NAME = 'yn-v1792090392845'; 
 
 const urlsToCache = [
   './index.html',
@@ -18,29 +21,46 @@ const urlsToCache = [
   './keepLocal.v1.js',
   './purify.min.js',
   './favicon.ico',
-  './index',
-  './r',
   './'
 ];
-
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(async cache => {
-      console.log('開始快取檔案...');
-      console.log("版本", CACHE_NAME);
+    (async () => {
+      console.log("快取版本：", CACHE_NAME);
+      const cache = await caches.open(CACHE_NAME);
+
+      // 1. 使用 Promise.allSettled 進行並行下載與容錯處理
+      await Promise.allSettled(
+        urlsToCache.map(async (url) => {
+          try {
+            await cache.add(url);
+          } catch (err) {
+            console.error(`快取失敗的檔案: ${url}`, err);
+          }
+        })
+      );
+
+      // 2. 確保快取流程處理完畢後，再跳過等待期接管頁面
+      await self.skipWaiting();
+    })()
+  );
+});
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(async (cache) => {
+      // 逐一抓取並快取，避免單一 404 造成全盤失敗
       for (const url of urlsToCache) {
-        try { 
+        try {
           await cache.add(url);
-          console.log(`成功快取: ${url}`);
         } catch (err) {
-          console.error(`快取失敗的檔案: ${url}`, err);
+          console.warn(`[SW] 快取檔案失敗（可能檔案不存在）: ${url}`, err);
         }
       }
     })
   );
-  // 強制讓新 Service Worker 立即跳過等待期
-  self.skipWaiting();
 });
+
 
 self.addEventListener('fetch', event => {
   if (event.request.url.includes('script.google.com')) {
@@ -80,7 +100,7 @@ self.addEventListener('activate', event => {
       const cacheNames = await caches.keys();
       
       const deletePromises = cacheNames
-        .filter(cacheName => cacheName.startsWith("yn") && cacheName !== CACHE_NAME)
+        .filter(cacheName => cacheName.startsWith(CACHE_NAME_HEAD) && cacheName !== CACHE_NAME)
         .map(async cacheName => {
           console.log('刪除舊快取:', cacheName);
           return await caches.delete(cacheName);
@@ -88,8 +108,8 @@ self.addEventListener('activate', event => {
 
       await Promise.all(deletePromises);
 
-      // 讓新的 Service Worker 立即開始控制現有的全部分頁
-      //await self.clients.claim();
+      // 讓所有已開的即有的TAB，都立即更新，讓新的 Service Worker 立即開始控制現有的全部分頁
+      await self.clients.claim();
     })()
   );
 });
