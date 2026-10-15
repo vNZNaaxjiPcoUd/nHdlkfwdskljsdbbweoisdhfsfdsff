@@ -208,7 +208,7 @@ button {
 .sub-tabs-header {
   display: flex;
   flex-wrap: wrap;
-  align-itrems: flex-end;
+  align-items: flex-end;
   border-bottom: 1px solid #cccccc;
   background-color: #000000;
   padding-top: 1px;
@@ -249,7 +249,7 @@ button {
   margin-right: 1px;
   margin-bottom: 0;
   display: flex;
-  align-itrems: center;
+  align-items: center;
   white-space: nowrap;
 }
 
@@ -734,7 +734,7 @@ button {
 .toc-button-list {
   display: flex !important;
   justify-content: space-between;
-  align-itrems: center;
+  align-items: center;
   user-select: none;
   box-sizing: border-box;
   width:90%;
@@ -781,7 +781,7 @@ button {
   background: rgba(0, 0, 0, 0.95);
   display: none;
   justify-content: center;
-  align-itrems: center;
+  align-items: center;
   flex-direction: column;
   z-index: 2000;
 }
