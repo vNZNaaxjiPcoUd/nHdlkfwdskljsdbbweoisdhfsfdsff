@@ -1,4 +1,4 @@
-const CACHE_NAME = 'yn-v1792076761679'; 
+const CACHE_NAME = 'yn-v1792077285543'; 
 
 const urlsToCache = [
   './index.html',
@@ -89,7 +89,7 @@ self.addEventListener('activate', event => {
       await Promise.all(deletePromises);
 
       // 讓新的 Service Worker 立即開始控制現有的全部分頁
-      await self.clients.claim();
+      //await self.clients.claim();
     })()
   );
 });
