@@ -1,7 +1,7 @@
 const CACHE_NAME_HEAD = 'yn';
 
 
-const CACHE_NAME = 'yn-v1792090438896'; 
+const CACHE_NAME = 'yn-v1792091000337'; 
 
 const urlsToCache = [
   './index.html',
@@ -109,7 +109,7 @@ self.addEventListener('activate', event => {
       await Promise.all(deletePromises);
 
       // 讓所有已開的即有的TAB，都立即更新，讓新的 Service Worker 立即開始控制現有的全部分頁
-      await self.clients.claim();
+      //await self.clients.claim();
     })()
   );
 });
