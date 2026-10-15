@@ -1,7 +1,7 @@
 const CACHE_NAME_HEAD = 'yn';
 
 
-const CACHE_NAME = 'yn-v1792094075384'; 
+const CACHE_NAME = 'yn-v1792094437577'; 
 
 const urlsToCache = [
   './index.html',
@@ -26,7 +26,7 @@ const urlsToCache = [
 self.addEventListener('install', event => {
   event.waitUntil(
     (async () => {
-      console.log("快取版本：", CACHE_NAME);
+      //console.log("快取版本：", CACHE_NAME);
       const cache = await caches.open(CACHE_NAME);
 
       // 1. 使用 Promise.allSettled 進行並行下載與容錯處理
@@ -88,7 +88,7 @@ self.addEventListener('activate', event => {
       const deletePromises = cacheNames
         .filter(cacheName => cacheName.startsWith(CACHE_NAME_HEAD) && cacheName !== CACHE_NAME)
         .map(async cacheName => {
-          console.log('刪除舊快取:', cacheName, CACHE_NAME, cacheName !== CACHE_NAME);
+          //console.log('刪除舊快取:', cacheName, CACHE_NAME, cacheName !== CACHE_NAME);
           return await caches.delete(cacheName);
         });
 
