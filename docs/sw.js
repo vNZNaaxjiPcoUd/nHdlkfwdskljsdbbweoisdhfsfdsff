@@ -1,4 +1,4 @@
-const CACHE_NAME = 'yn-v1792032548198'; 
+const CACHE_NAME = 'yn-v1792076761679'; 
 
 const urlsToCache = [
   './index.html',
@@ -80,7 +80,7 @@ self.addEventListener('activate', event => {
       const cacheNames = await caches.keys();
       
       const deletePromises = cacheNames
-        .filter(cacheName => cacheName !== CACHE_NAME)
+        .filter(cacheName => cacheName.startsWith("yn") && cacheName !== CACHE_NAME)
         .map(async cacheName => {
           console.log('刪除舊快取:', cacheName);
           return await caches.delete(cacheName);
