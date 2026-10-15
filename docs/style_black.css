@@ -208,7 +208,7 @@ button {
 .sub-tabs-header {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-itrems: flex-end;
   border-bottom: 1px solid #cccccc;
   background-color: #000000;
   padding-top: 1px;
@@ -249,7 +249,7 @@ button {
   margin-right: 1px;
   margin-bottom: 0;
   display: flex;
-  align-items: center;
+  align-itrems: center;
   white-space: nowrap;
 }
 
@@ -352,16 +352,16 @@ button {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 
-  /*font-family: "Inter", -apple-system, BlinkMacSystemFont, "PingFang TC",
+  /*font-family: "Inter", -apple-systrem, BlinkMacSystremFont, "PingFang TC",
     "Noto Sans TC", "Microsoft JhengHei", sans-serif;
   xxxfont-family: "Lora", "Merriweather", "Noto Serif TC", "Songti TC", "PMingLiU", serif;
   font-family: "Lora", "Noto Serif TC", "Songti TC", "Source Han Serif TC", "PMingLiU", serif;
-  font-family: "Geist", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;*/
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  font-family: "Geist", "Plus Jakarta Sans", -apple-systrem, BlinkMacSystremFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;*/
+  font-family: "Inter", systrem-ui, -apple-systrem, BlinkMacSystremFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
   font-size: 1rem;
   font-weight: 200;
-  line-height: 1.5em;
-  letter-spacing: 0.066em;
+  line-height: 1.5rem;
+  letter-spacing: 0.066rem;
   color: #cccccc;
   background-color: #000000;
 }
@@ -381,9 +381,9 @@ button {
 }
 
 #mdShowArea a::first-letter {
-  font-size: 1em;
+  font-size: 1rem;
   font-weight: 300;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.02rem;
   color: rgb(225, 225, 206);
   transition: color 0.3s ease;
 }
@@ -420,59 +420,65 @@ button {
   font-size: 2rem;
   font-weight: 700;
   color: #2ecc71;
-  letter-spacing: 0.05em;
-  margin: 1.8em 0 0.2em;
+  letter-spacing: 0.05rem;
+  margin: 1.8rem 0 0.2rem;
   border-bottom: 1px solid #4a90e2;
-  padding-bottom: 0.26em;
+  padding-bottom: 0.26rem;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  line-height: 2.2rem; 
 }
 
 #mdShowArea h2 {
   font-size: 1.6rem;
   font-weight: 500;
   color: #59d68d;
-  letter-spacing: 0.03em;
-  margin: 1.5em 0 0.2em;
-  padding-bottom: 0.1em;
+  letter-spacing: 0.03rem;
+  margin: 1.5rem 0 0.2rem;
+  padding-bottom: 0.1rem;
+  line-height: 2.2rem; 
 }
 
 #mdShowArea h3 {
   font-size: 1.4rem;
   font-weight: 500;
   color: #74da9f;
-  letter-spacing: 0.02em;
-  margin: 1.2em 0 0.2em;
-  padding-bottom: 0.1em;
+  letter-spacing: 0.02rem;
+  margin: 1.2rem 0 0.2rem;
+  padding-bottom: 0.1rem;
+  line-height: 2.2rem; 
 }
 
 #mdShowArea h4 {
   font-size: 1.3rem;
   font-weight: 400;
   color: #7cda74;
-  letter-spacing: 0.01em;
-  margin: 1em 0 0.2em;
+  letter-spacing: 0.01rem;
+  margin: 1rem 0 0.2rem;
+  line-height: 2.2rem; 
 }
 
 #mdShowArea h5 {
   font-size: 1.2rem;
   font-weight: 400;
   color: #a4da74;
-  letter-spacing: 0.01em;
-  margin: 1em 0 0.2em;
+  letter-spacing: 0.01rem;
+  margin: 1rem 0 0.2rem;
+  line-height: 2.2rem; 
 }
 
 #mdShowArea h6 {
   font-size: 1.1rem;
   font-weight: 400;
   color: #c1e790;
-  letter-spacing: 0.01em;
-  margin: 1em 0 0.2em;
+  letter-spacing: 0.01rem;
+  margin: 1rem 0 0.2rem;
+  line-height: 2.2rem; 
 }
 
 #mdShowArea b,
 #mdShowArea strong,
 #mdShowArea i,
-#mdShowArea em {
+#mdShowArea rem {
   display: inline-block;
   color: #87ed87;
   transition: color 0.3s ease, transform 0.3s ease;
@@ -484,14 +490,14 @@ button {
 }
 
 #mdShowArea i,
-#mdShowArea em {
+#mdShowArea rem {
   font-style: italic;
 }
 
 #mdShowArea b i,
-#mdShowArea strong em,
+#mdShowArea strong rem,
 #mdShowArea i b,
-#mdShowArea em strong {
+#mdShowArea rem strong {
   font-style: italic;
   font-weight: 300;
 }
@@ -499,30 +505,30 @@ button {
 #mdShowArea b:hover,
 #mdShowArea strong:hover,
 #mdShowArea i:hover,
-#mdShowArea em:hover,
+#mdShowArea rem:hover,
 #mdShowArea b i:hover,
-#mdShowArea strong em:hover,
+#mdShowArea strong rem:hover,
 #mdShowArea i b:hover,
-#mdShowArea em strong:hover {
+#mdShowArea rem strong:hover {
   transform: scale(0.99);
   color: #8bfe7b;
 }
 
 #mdShowArea p {
-  margin: 0.3em 0;
+  margin: 0.3rem 0;
 }
 
 #mdShowArea hr {
   border: none;
   border-top: 1px solid rgb(20, 34, 23);
-  margin: 1.5em 0;
+  margin: 1.5rem 0;
 }
 
 #mdShowArea img {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 1.8em auto;
+  margin: 1.8rem auto;
   border: 1px solid #333333;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
@@ -538,7 +544,7 @@ button {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  margin: 1em 0;
+  margin: 1rem 0;
   border-radius: 9px;
   overflow: hidden;
 }
@@ -567,8 +573,8 @@ button {
 
 #mdShowArea ul,
 #mdShowArea ol {
-  margin: 0.6em 0;
-  padding-left: 2.5em;
+  margin: 0.6rem 0;
+  padding-left: 2.5rem;
 }
 
 #mdShowArea ul li {
@@ -582,7 +588,7 @@ button {
 }
 
 #mdShowArea li {
-  margin-bottom: 0.1em;
+  margin-bottom: 0.1rem;
   transition: color 0.3s ease;
 }
 
@@ -613,8 +619,8 @@ button {
 }
 
 #mdShowArea footer {
-  margin-top: 3em;
-  padding-top: 1em;
+  margin-top: 3rem;
+  padding-top: 1rem;
   border-top: 1px solid #333333;
   font-size: 0.9rem;
   color: #cccccc;
@@ -693,7 +699,7 @@ button {
 /* 目錄觸發按鈕 */
 #toc-btn {
   position: fixed;
-  right: 1em;
+  right: 1rem;
   top: 20px;
   z-index: 995;
   padding: 10px 15px;
@@ -729,7 +735,7 @@ button {
 .toc-button-list {
   display: flex !important;
   justify-content: space-between;
-  align-items: center;
+  align-itrems: center;
   user-select: none;
   box-sizing: border-box;
   width:90%;
@@ -776,7 +782,7 @@ button {
   background: rgba(0, 0, 0, 0.95);
   display: none;
   justify-content: center;
-  align-items: center;
+  align-itrems: center;
   flex-direction: column;
   z-index: 2000;
 }
