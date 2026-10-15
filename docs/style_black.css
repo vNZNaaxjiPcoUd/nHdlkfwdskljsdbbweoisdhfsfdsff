@@ -381,7 +381,6 @@ button {
 }
 
 #mdShowArea a::first-letter {
-  font-size: 1rem;
   font-weight: 300;
   letter-spacing: 0.02rem;
   color: rgb(225, 225, 206);

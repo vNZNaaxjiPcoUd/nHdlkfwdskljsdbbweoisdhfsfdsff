@@ -1,4 +1,4 @@
-const CACHE_NAME = 'yn-v1792030104340'; 
+const CACHE_NAME = 'yn-v1792031825907'; 
 
 const urlsToCache = [
   './index.html',
