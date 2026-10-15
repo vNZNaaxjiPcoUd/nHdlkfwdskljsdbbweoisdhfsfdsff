@@ -110,7 +110,8 @@
         <button id="okbtn" class="btn-secondary">確定</button>
         <button id="cancelbtn" class="btn-secondary">取消</button>    
     </dialog>
-  
+
+
 <script>
 
     if ('serviceWorker' in navigator) {
@@ -127,11 +128,10 @@
     navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (!refreshing) {
         refreshing = true;
-        window.location.reload(); // 自動刷新頁面套用新版靜態資源
+        //window.location.reload(); // 自動刷新頁面套用新版靜態資源
         }
     });
     }
+</script>   
 
-
-</script>
 </body></html>

@@ -12,9 +12,7 @@ window.updateWebManifest = function(inP) {
     //const myID = customName === appName? appName: appName+"-"+customName;
     const myID = appName;
     const baseUrl = currentUrl;
-    
-    console.log(window.location.origin, window.location.href);
-    console.log("ere");
+
 
     const myManifest = {
         "id": myID,
