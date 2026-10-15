@@ -1,7 +1,7 @@
 const CACHE_NAME_HEAD = 'yn';
 
 
-const CACHE_NAME = 'yn-v1792093011287'; 
+const CACHE_NAME = 'yn-v1792094075384'; 
 
 const urlsToCache = [
   './index.html',
@@ -46,20 +46,6 @@ self.addEventListener('install', event => {
   );
 });
 
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      // 逐一抓取並快取，避免單一 404 造成全盤失敗
-      for (const url of urlsToCache) {
-        try {
-          await cache.add(url);
-        } catch (err) {
-          console.warn(`[SW] 快取檔案失敗（可能檔案不存在）: ${url}`, err);
-        }
-      }
-    })
-  );
-});
 
 
 self.addEventListener('fetch', event => {
