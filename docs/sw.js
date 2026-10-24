@@ -1,7 +1,7 @@
 const CACHE_NAME_HEAD = 'yn';
 
 
-const CACHE_NAME = 'yn-v1792875307415'; 
+const CACHE_NAME = 'yn-v1792875520194'; 
 
 const urlsToCache = [
   './index.html',
@@ -49,6 +49,8 @@ self.addEventListener('install', event => {
 
 
 self.addEventListener('fetch', event => {
+
+  return;
   if (event.request.url.includes('script.google.com')) {
     return;
   }
