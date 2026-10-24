@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <base target="_blank">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#000000">
+    <title>分享筆記</title>
+    <link rel="manifest" href="./manifest.json">
+    <script src="./manifest.js"></script>
+    
+    <script src="crypto-js.min.js"></script>
+    <script src="marked.min.js"></script>
+    <script src="purify.min.js"></script>
+    <script src="mermaid.min.js"></script>
+    <script src="umd.js"></script>
+    <script src="d3@7.js"></script>
+    <script src="markmap-lib.js"></script>
+    <script src="markmap-view.js"></script>
+    <script src="keepLocal.v1.js"></script>
+    <script defer src="cfNote.js"></script>
+    <link rel="stylesheet" href="style_black.css">
+
+</head>
+<body>
+    <div id="appInfo" style="background-color: black; color: black; display: none;">
+        <h3 id="重點及提要">重點及提要</h3>
+        <ul>
+        <li>提供跨平台、跨裝置的雲端筆記服務，無需安裝即可透過瀏覽器直接存取。</li>
+        <li>採用端對端高強度加密架構，落實本地解密，確保雲端零資料外洩風險。</li>
+        <li>內建 Markdown 語法、心智圖與多樣化圖表支援，滿足專業排版需求。</li>
+        <li>具備完整快捷鍵與進階指令系統，大幅提升文件管理與編輯效率。</li>
+        </ul>
+        <h3 id="系統概述與核心功能">系統概述與核心功能</h3>
+        <p>雲端筆記本是一款專為機動性與高安全性設計的隨身記事系統。首次開啟時僅需輸入書本名稱與密碼即可建立檔案。系統核心優勢如下：</p>
+        <ul>
+        <li>無縫跨裝置整合：使用者僅需保存專屬網址，即可在個人電腦、平板或手機等設備間流暢作業。於手機瀏覽器中點選「分享/加入主畫面」，即可轉為應用程式 (APP) 形式捷徑。</li>
+        <li>多元視覺化呈現：系統支援多種瀏覽視角，包含標準閱讀模式、心智圖層級模式，並完美整合 <a href="r#markdownSytax">Markdown 語法</a> 與 <a href="r#mermaid">Mermaid 圖表語法</a>。</li>
+        <li>彈性分類管理：允許無限制創建多本獨立筆記本，並支援在單一筆記本內新增多個分頁，以便系統化歸檔各類資訊。</li>
+        </ul>        
+    </div>
+    <div class="main-container">
+        <div class="tabs" id="mainTabs" >
+            <div id="topBnt">
+                <button class="tab-button" id="readLocalBtn" title="本地讀取" >暫取</button>
+                <button class="tab-button" id="saveLocalBtn" title="本地保存" >暫存</button>
+                <button class="tab-button" title="閱讀模式" id="mdViewBtn" >唯讀</button>
+                <button class="tab-button" id="getDBBtn2" title="雲下載更新" >取</button>
+                <button class="tab-button" id="saveDBBtn2" title="保存並上傳雲" >存</button>
+                <button class="tab-button" id="addSubPageBtn" title="新增分頁">➕</button>
+            </div>
+        </div>
+        <div id="mkdwPage">
+            <button id="toc-btn" style="display:none">☰</button>
+            <button id="backToTopBtn" title="回到最前面" hidden>^</button>
+            <nav id="toc" class="toc-sidebar"></nav>
+
+            <div id="mdShowArea" style="display:none;">
+                <div id="mdBtnTab" style="display:none;">
+                    <button class="mdBtn" id="markdownReloadBtn">reload</button>
+                    <button class="mdBtn" id="markdownViewBtn" >close</button>
+                </div>
+                <div id="mdText"></div>
+                <svg id="markmap"></svg>
+            </div>
+        </div>
+
+        <div id="TabA" class="tab-content">
+            <button id="encBtn" >解密</button>
+            <textarea id="encryptedContent" placeholder="在此貼上密文..."></textarea>
+        </div>
+
+        <div id="TabB" class="tab-content">
+            <div class="sub-tabs-header">
+                <div id="subTabNav" class="sub-tabs"></div>
+            </div>
+            <div id="subTabContentContainer" class="sub-tab-content-container"></div>
+        </div>
+    </div>
+    
+    <div id="statusMessage" class="status-info" title="閱讀/編輯" >Load...</div>
+    <div id="passwordOverlay" style="display:none">
+        <input type="text" id="passwordInput" placeholder="訊息內容" autocomplete="off" value="" >
+    </div>
+
+    <dialog id="newPwdDialog" class="custom-dialog">
+        <input type="password" id="newPwd1" placeholder="輸入新密碼" class="custom-input"><br><br>
+        <input type="password" id="newPwd2" placeholder="再次確認密碼" class="custom-input"><br><br>
+        <button id="confirmBtn" class="btn-primary">確定</button>
+        <button id="cancelBtn" class="btn-primary">取消</button>
+    </dialog>
+
+    <dialog id="PwdDialog" class="custom-dialog">
+        <h2 id="inpTitlePwdDialog" class="dialog-title"></h2>
+        <input type="password" id="pwdNow" placeholder="輸入" class="custom-input"><br><br>
+        <button id="confirmBtnPwdDialog" class="btn-primary">確定</button>
+    </dialog>
+
+    <dialog id="inputDialog" class="custom-dialog">
+        <h2 id="inpTitle" class="dialog-title"></h2>
+        <input type="text" id="inputT" placeholder="輸入" class="custom-input"><br><br>
+        <button id="okCmd" class="btn-secondary">確定</button>
+        <button id="cancelCmd" class="btn-secondary">取消</button>    
+    </dialog>
+
+    <dialog id="msgDialog" class="custom-dialog">
+        <h2 id="msgCheckText" class="dialog-title"></h2>
+        <button id="okbtn" class="btn-secondary">確定</button>
+        <button id="cancelbtn" class="btn-secondary">取消</button>    
+    </dialog>
+
+
+<script>
+
+    if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
+        .then((registration) => {
+        // 頁面載入時主動檢查是否有新版本
+        registration.update();
+        });
+
+    // 避免重複觸發刷新的旗標
+    let refreshing = false;
+
+    // 當 Service Worker 成功接管時（skipWaiting + claim 後觸發）
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+        refreshing = true;
+        //window.location.reload(); // 自動刷新頁面套用新版靜態資源
+        }
+    });
+    }
+</script>   
+
+</body></html>
