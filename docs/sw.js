@@ -1,7 +1,7 @@
 const CACHE_NAME_HEAD = 'yn';
 
 
-const CACHE_NAME = 'yn-v1792882701576'; 
+const CACHE_NAME = 'yn-v1793025983436'; 
 
 const urlsToCache = [
   './index.html',
